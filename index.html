@@ -6,7 +6,7 @@
 <title>Veershree Staff</title>
 <meta name="theme-color" content="#0C1A2C">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="VS Staff">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icon-192.png">
@@ -294,7 +294,7 @@ svg.i.sm { width: 15px; height: 15px; }
 .check { display: flex; gap: 8px; align-items: center; font-size: 13px; }
 .check input { accent-color: var(--accent); width: 16px; height: 16px; }
 .toggle { position: relative; display: inline-block; vertical-align: middle; width: 40px; height: 23px; flex: none; }
-.toggle input { opacity: 0; width: 100%; height: 100%; margin: 0; position: absolute; cursor: pointer; z-index: 1; }
+.toggle input { opacity: 0; width: 100%; height: 100%; margin: 0; position: absolute; left: 0; top: 0; cursor: pointer; z-index: 1; }
 .toggle span { position: absolute; inset: 0; background: var(--surface-3); border-radius: 99px; transition: background .15s; }
 .toggle span::after { content: ""; position: absolute; top: 3px; left: 3px; width: 17px; height: 17px; border-radius: 50%; background: #fff; transition: transform .15s; box-shadow: 0 1px 3px rgba(0,0,0,.25); }
 .toggle input:checked + span { background: var(--accent); }
@@ -483,7 +483,7 @@ svg.i.sm { width: 15px; height: 15px; }
 .ob:first-child { border-top: 0; }
 .ob .ic { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; }
 .ob b { font-size: 13.5px; } .ob .sub { font-size: 12px; color: var(--ink-3); margin-top: 2px; }
-.bigshare { width: 100%; padding: 13px; font-size: 14px; border-radius: 13px; }
+.bigshare { width: 100%; padding: 13px; font-size: 14px; border-radius: 13px; white-space: normal; line-height: 1.25; text-align: center; }
 
 /* Mobile chrome */
 .bnav, .fab, .sheet-back, .mob-only, .mob-only-inline { display: none; }
@@ -555,6 +555,38 @@ svg.i.sm { width: 15px; height: 15px; }
   .content { padding-left: 12px; padding-right: 12px; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+/* ---------- Mobile polish ---------- */
+html, body { overflow-x: clip; }
+.searchbar { position: relative; flex: 1 1 240px; min-width: 0; display: block; margin: 0; }
+.searchbar > svg { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: var(--ink-3); pointer-events: none; }
+.searchbar input { display: block; width: 100%; height: 44px; margin: 0; padding: 0 14px 0 40px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); font-size: 15px; line-height: 44px; -webkit-appearance: none; appearance: none; }
+.searchbar input::placeholder { color: var(--ink-3); }
+.searchbar input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.filters.stack-f { flex-direction: column; align-items: stretch; }
+.filters.stack-f .searchbar { flex: none; }
+select { -webkit-appearance: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238090A4' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; background-size: 16px 16px; padding-right: 34px !important; }
+.field input:not([type="checkbox"]):not([type="radio"]):not([type="file"]), .field select, .filters select, .filters input[type="date"], .tbl select { min-height: 42px; }
+.field input, .field select, .field textarea, .filters select, .filters input { line-height: 1.3; }
+input[type="datetime-local"], input[type="date"] { text-align: left; -webkit-appearance: none; appearance: none; }
+input::-webkit-date-and-time-value { text-align: left; }
+input[type="file"] { font-size: 14px; max-width: 100%; }
+input[type="file"]::file-selector-button { border: 1px solid var(--line); background: var(--surface-2); color: var(--ink); border-radius: 8px; padding: 7px 12px; margin-right: 10px; font: inherit; font-weight: 700; cursor: pointer; }
+.tip { display: none; }
+@media (hover: hover) { .tc-col:hover .tip { display: block; opacity: 1; } }
+.tc-col.tl .tip { left: 0; transform: none; } .tc-col.tr .tip { left: auto; right: 0; transform: none; }
+@media (max-width: 900px) {
+  input, select, textarea, .searchbar input { font-size: 16px !important; }
+  .btn { min-height: 40px; } .btn.sm { min-height: 34px; }
+  .filters { gap: 10px; padding: 12px 14px; }
+  .seg button, .seg label { padding: 8px 12px; }
+}
+@media (max-width: 720px) {
+  .filters:not(.stack-f) { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; }
+  .filters:not(.stack-f) > .searchbar, .filters:not(.stack-f) > .btn, .filters:not(.stack-f) > span { grid-column: 1 / -1; }
+  .filters:not(.stack-f) > span[style*="margin-left:auto"] { margin-left: 0 !important; }
+  .filters select, .filters input[type="date"] { width: 100%; }
+}
 </style>
 </head>
 <body>
@@ -744,7 +776,7 @@ function clientAv(name, cls) { const hue = hashHue(name || '?'); return `<span c
 function openModal(title, body, opts = {}) {
   S.modal = opts;
   $('#modal-root').innerHTML = `<div class="modal-back" data-act="modal-back"><form class="modal ${opts.wide ? 'wide' : ''}" id="modal-form" role="dialog" aria-modal="true" aria-labelledby="modal-title" novalidate>
-    <header><h2 id="modal-title">${esc(title)}</h2><button type="button" class="icon-btn" data-act="modal-close" aria-label="Close">×</button></header>
+    <header><h2 id="modal-title">${esc(title)}</h2><button type="button" class="ibtn" data-act="modal-close" aria-label="Close">${icon('x')}</button></header>
     <div class="mb">${body}</div><div class="merr hide" id="modal-err" role="alert"></div>
     <footer>${opts.noSubmit ? `<button type="button" class="btn" data-act="modal-close">Close</button>` : `<button type="button" class="btn ghost" data-act="modal-close">Cancel</button><button type="submit" class="btn ${opts.danger ? 'danger' : 'primary'}" id="modal-submit">${esc(opts.submit || 'Save')}</button>`}</footer>
   </form></div>`;
@@ -1049,8 +1081,8 @@ function vLeads() {
   else if (f.f === 'unsent') list = list.filter(l => unsentOf(l).length || (!l.sentAt && !l.adminId));
   else if (f.f === 'closed') list = list.filter(l => l.closed);
   const withA = list.map(l => ({ l, a: leadAlert(l, now) })).sort((x, y) => ((x.a ? LVL_RANK[x.a.lvl] : 9) - (y.a ? LVL_RANK[y.a.lvl] : 9)) || (y.l.lastActivityAt || 0) - (x.l.lastActivityAt || 0));
-  return `<div class="grid g-2"><button class="btn primary bigshare" type="button" data-act="add-lead">${icon('userplus')}Add new lead</button><button class="btn bigshare" type="button" data-act="import-admin">${icon('download')}Import leads from admin</button></div>
-    <div class="card"><div class="filters" style="flex-direction:column;align-items:stretch"><input type="search" id="s-q" class="inp" placeholder="Search name or phone" value="${esc(f.q)}" data-inp="sq" aria-label="Search leads">
+  return `<div class="grid g-2"><button class="btn primary bigshare" type="button" data-act="add-lead">${icon('userplus')}Add new lead</button><button class="btn bigshare" type="button" data-act="import-admin">${icon('download')}Leads from admin</button></div>
+    <div class="card"><div class="filters stack-f"><label class="searchbar">${icon('search')}<input type="search" id="s-q" placeholder="Search name or phone" value="${esc(f.q)}" data-inp="sq" aria-label="Search leads" autocomplete="off"></label>
       <span class="seg">${[['open', 'Open'], ['action', 'Needs action'], ['hot', 'Hot'], ['unsent', 'Not sent'], ['closed', 'Booked / lost'], ['all', 'All']].map(([k, v]) => `<button type="button" data-act="lf" data-v="${k}" aria-pressed="${f.f === k}">${v}</button>`).join('')}</span></div>
     ${withA.length ? `<div class="list">${withA.slice(0, 200).map(({ l, a }) => `<button type="button" class="lc" data-act="open-lead" data-id="${l.id}">${clientAv(l.name)}<span style="min-width:0"><span class="nm">${esc(l.name)}</span><span class="sub" style="display:block">${esc(l.phone || '')} · ${esc(l.project || '')}</span></span>${statusPill(l.status)}<span class="meta">${a && a.lvl !== 'ok' ? alertChip(a) : a ? `<span class="small muted">${esc(a.txt)}</span>` : l.status === 'booked' ? `<span class="small muted">Booked ${esc(fmtDate(l.bookedAt))}${l.dealValue ? ' · ' + money(l.dealValue) : ''}</span>` : ''}${tempBadge(tempOf(l, now))}${l.adminId ? '<span class="pill info">From admin</span>' : ''}${unsentOf(l).length || (!l.sentAt && !l.adminId) ? '<span class="pill warn">Not sent</span>' : ''}</span></button>`).join('')}</div>` : emptyState('search', q ? 'No lead matches your search.' : 'No leads here.')}</div>`;
 }
