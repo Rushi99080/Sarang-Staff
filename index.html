@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Veershree Staff</title>
+<meta name="theme-color" content="#0C1A2C">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="VS Staff">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Layout: navy command sidebar + sticky top bar + card canvas; mobile gets an app-style bottom tab bar */
+  --bg: #F3F5F9;
+  --surface: #FFFFFF;
+  --surface-2: #F1F4F8;
+  --surface-3: #E8EDF4;
+  --ink: #0F1B2D;
+  --ink-2: #4A586C;
+  --ink-3: #8090A4;
+  --line: #E2E8F0;
+  --side: #0C1A2C;
+  --side-2: #142640;
+  --side-ink: #C8D3E2;
+  --side-ink-2: #7488A3;
+  --accent: #0E8C7A;
+  --accent-2: #0A7466;
+  --accent-ink: #FFFFFF;
+  --accent-soft: #DFF3EF;
+  --gold: #B7841F; --gold-soft: #FBF1DC;
+  --info: #2F6BD8; --info-soft: #E3ECFC;
+  --good: #1D9A57; --good-soft: #E1F5EA;
+  --warn: #C27C06; --warn-soft: #FCF0D9;
+  --bad: #D24343; --bad-soft: #FCE6E5;
+  --font: "Plus Jakarta Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --r: 14px; --r-sm: 10px;
+  --shadow: 0 1px 2px rgba(15,27,45,.05), 0 8px 24px -12px rgba(15,27,45,.12);
+  --shadow-lg: 0 24px 60px -20px rgba(15,27,45,.35);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0A111D; --surface: #111B2B; --surface-2: #17233A; --surface-3: #1E2C46; --ink: #E8EEF6; --ink-2: #A9B6C8; --ink-3: #7486A0; --line: #22314A;
+    --side: #060C17; --side-2: #0F1A2D; --side-ink: #C8D3E2; --side-ink-2: #6B7F9C;
+    --accent: #2DB8A2; --accent-2: #46CBB6; --accent-ink: #04201B; --accent-soft: #10302C;
+    --gold: #E2B455; --gold-soft: #33280F; --info: #6C9CF0; --info-soft: #172A4A; --good: #4CCB86; --good-soft: #12301F; --warn: #EAB04A; --warn-soft: #33270F; --bad: #F27272; --bad-soft: #3A1B1D;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6); --shadow-lg: 0 24px 60px -20px rgba(0,0,0,.8);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0A111D; --surface: #111B2B; --surface-2: #17233A; --surface-3: #1E2C46; --ink: #E8EEF6; --ink-2: #A9B6C8; --ink-3: #7486A0; --line: #22314A;
+  --side: #060C17; --side-2: #0F1A2D; --side-ink: #C8D3E2; --side-ink-2: #6B7F9C;
+  --accent: #2DB8A2; --accent-2: #46CBB6; --accent-ink: #04201B; --accent-soft: #10302C;
+  --gold: #E2B455; --gold-soft: #33280F; --info: #6C9CF0; --info-soft: #172A4A; --good: #4CCB86; --good-soft: #12301F; --warn: #EAB04A; --warn-soft: #33270F; --bad: #F27272; --bad-soft: #3A1B1D;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6); --shadow-lg: 0 24px 60px -20px rgba(0,0,0,.8);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 14px; line-height: 1.45; -webkit-font-smoothing: antialiased; }
+h1, h2, h3 { margin: 0; text-wrap: balance; letter-spacing: -0.015em; }
+h1 { font-size: 24px; font-weight: 800; }
+h2 { font-size: 15.5px; font-weight: 700; }
+h3 { font-size: 14px; font-weight: 700; }
+button, input, select, textarea { font: inherit; color: inherit; }
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.num, .tbl td.n, .kpi-v { font-variant-numeric: tabular-nums; }
+.muted { color: var(--ink-3); }
+.small { font-size: 12.5px; }
+.hide { display: none !important; }
+svg.i { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+svg.i.sm { width: 15px; height: 15px; }
+
+/* ---------- App shell ---------- */
+.app { display: grid; grid-template-columns: 252px minmax(0, 1fr); min-height: 100vh; }
+.sb { background: var(--side); color: var(--side-ink); position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; padding: 18px 14px 14px; gap: 6px; overflow-y: auto; }
+.sb-brand { display: flex; gap: 11px; align-items: center; padding: 2px 6px 16px; border-bottom: 1px solid rgba(255,255,255,.07); margin-bottom: 8px; }
+.logo { width: 38px; height: 38px; border-radius: 11px; background: linear-gradient(140deg, var(--accent) 0%, #0B5E77 100%); display: grid; place-items: center; color: #fff; font-weight: 800; font-size: 15px; letter-spacing: -.02em; flex: none; box-shadow: 0 6px 16px -6px rgba(14,140,122,.7); }
+.sb-brand .t { font-weight: 800; font-size: 15px; color: #fff; line-height: 1.15; letter-spacing: -.01em; }
+.sb-brand .s { font-size: 11.5px; color: var(--side-ink-2); }
+.sb-label { font-size: 10.5px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--side-ink-2); padding: 12px 10px 4px; }
+.sb-item { display: flex; align-items: center; gap: 11px; width: 100%; border: 0; background: none; padding: 9px 10px; border-radius: 9px; cursor: pointer; color: var(--side-ink); font-weight: 600; font-size: 13.5px; text-align: left; position: relative; }
+.sb-item:hover { background: rgba(255,255,255,.05); color: #fff; }
+.sb-item[aria-current="page"] { background: var(--side-2); color: #fff; }
+.sb-item[aria-current="page"]::before { content: ""; position: absolute; left: -14px; top: 8px; bottom: 8px; width: 3px; border-radius: 0 3px 3px 0; background: var(--accent); }
+.sb-item[aria-current="page"] svg { color: var(--accent); }
+.sb-item .badge { margin-left: auto; }
+.sb-foot { margin-top: auto; padding-top: 12px; border-top: 1px solid rgba(255,255,255,.07); display: flex; flex-direction: column; gap: 8px; }
+.sb-user { display: flex; align-items: center; gap: 10px; padding: 6px; }
+.sb-user .nm { color: #fff; font-weight: 700; font-size: 13px; }
+.sb-user .rl { font-size: 11.5px; color: var(--side-ink-2); }
+.sb-theme { display: flex; align-items: center; gap: 10px; border: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.03); color: var(--side-ink); border-radius: 9px; padding: 8px 10px; cursor: pointer; font-weight: 600; font-size: 12.5px; }
+.sb-theme:hover { background: rgba(255,255,255,.07); }
+.main { min-width: 0; display: flex; flex-direction: column; }
+.top { position: sticky; top: 0; z-index: 30; display: flex; align-items: center; gap: 14px; padding: 12px 28px; background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+.top-title { display: none; font-weight: 800; font-size: 16px; }
+.top .logo { display: none; width: 32px; height: 32px; font-size: 13px; border-radius: 9px; }
+.search { position: relative; flex: 1; max-width: 460px; }
+.search input { width: 100%; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 9px 12px 9px 38px; font-size: 13.5px; }
+.search input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.search > svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--ink-3); }
+.search kbd { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-family: var(--font); font-size: 11px; color: var(--ink-3); border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; background: var(--surface-2); }
+.dd { position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow-lg); overflow: hidden; z-index: 40; }
+.dd-h { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--ink-3); padding: 10px 14px 4px; }
+.dd-item { display: flex; align-items: center; gap: 10px; width: 100%; padding: 9px 14px; border: 0; background: none; cursor: pointer; text-align: left; }
+.dd-item:hover, .dd-item:focus-visible { background: var(--surface-2); }
+.dd-item .nm { font-weight: 700; }
+.dd-empty { padding: 14px; color: var(--ink-3); font-size: 13px; }
+.top-actions { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.ibtn { position: relative; width: 38px; height: 38px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); display: grid; place-items: center; cursor: pointer; color: var(--ink-2); }
+.ibtn:hover { color: var(--ink); background: var(--surface-2); }
+.ibtn .dotn { position: absolute; top: -5px; right: -5px; min-width: 18px; height: 18px; border-radius: 99px; background: var(--bad); color: #fff; font-size: 10.5px; font-weight: 800; display: grid; place-items: center; padding: 0 5px; border: 2px solid var(--bg); }
+.notif { position: relative; }
+.notif .dd { left: auto; right: 0; width: 340px; }
+.ni { display: flex; gap: 11px; align-items: flex-start; width: 100%; padding: 11px 14px; border: 0; border-top: 1px solid var(--line); background: none; cursor: pointer; text-align: left; }
+.ni:hover { background: var(--surface-2); }
+.ni .ic { width: 32px; height: 32px; border-radius: 9px; display: grid; place-items: center; flex: none; }
+.ni b { font-weight: 700; font-size: 13px; display: block; }
+.ni span { font-size: 12px; color: var(--ink-3); }
+.content { padding: 24px 28px 64px; max-width: 1400px; width: 100%; }
+.page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 20px; }
+.page-head .sub { color: var(--ink-3); font-size: 13px; margin-top: 4px; max-width: 760px; }
+.eyebrow { font-size: 11.5px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 4px; }
+.live { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: var(--ink-2); padding: 6px 11px; border: 1px solid var(--line); border-radius: 99px; background: var(--surface); }
+.live i { width: 8px; height: 8px; border-radius: 50%; background: var(--good); position: relative; }
+.live i::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 2px solid var(--good); opacity: .35; animation: pulse 1.8s ease-out infinite; }
+.live.off i { background: var(--warn); } .live.off i::after { border-color: var(--warn); animation: none; }
+@keyframes pulse { from { transform: scale(.6); opacity: .6; } to { transform: scale(1.5); opacity: 0; } }
+.banner { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; padding: 11px 14px; border-radius: 12px; background: var(--warn-soft); color: var(--ink); margin-bottom: 18px; font-size: 13px; border: 1px solid color-mix(in srgb, var(--warn) 30%, transparent); }
+.banner b { font-weight: 700; }
+
+/* ---------- Building blocks ---------- */
+.grid { display: grid; gap: 18px; }
+.g-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.g-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.g-21 { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
+.g-12 { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); }
+.stack { display: flex; flex-direction: column; gap: 18px; }
+.row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.spread { display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); box-shadow: var(--shadow); min-width: 0; }
+.card-h { padding: 16px 18px 12px; display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+.card-h .ct { display: flex; align-items: center; gap: 10px; }
+.card-h .cic { width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); flex: none; }
+.card-sub { font-size: 12px; color: var(--ink-3); font-weight: 500; }
+.card-b { padding: 0 18px 18px; }
+.card-b.flush { padding: 0; }
+.note { font-size: 12.5px; color: var(--ink-3); }
+.tone-accent { background: var(--accent-soft); color: var(--accent); } .tone-info { background: var(--info-soft); color: var(--info); } .tone-gold { background: var(--gold-soft); color: var(--gold); }
+.tone-good { background: var(--good-soft); color: var(--good); } .tone-warn { background: var(--warn-soft); color: var(--warn); } .tone-bad { background: var(--bad-soft); color: var(--bad); }
+
+/* KPI */
+.kpis { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; }
+.kpi { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); box-shadow: var(--shadow); padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; min-width: 0; position: relative; overflow: hidden; }
+.kpi-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.kpi-l { font-size: 12.5px; font-weight: 600; color: var(--ink-2); }
+.kpi-ic { width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; flex: none; }
+.kpi-mid { display: flex; align-items: flex-end; justify-content: space-between; gap: 8px; }
+.kpi-v { font-size: 28px; font-weight: 800; letter-spacing: -.03em; line-height: 1.05; }
+.kpi-v small { font-size: 14px; font-weight: 700; color: var(--ink-3); margin-left: 2px; }
+.kpi-d { font-size: 11.5px; font-weight: 700; display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px; border-radius: 99px; }
+.kpi-d.up { background: var(--good-soft); color: var(--good); } .kpi-d.down { background: var(--bad-soft); color: var(--bad); } .kpi-d.flat { background: var(--surface-2); color: var(--ink-3); }
+.kpi-s { font-size: 11.5px; color: var(--ink-3); display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.spark { display: block; }
+
+/* Trend chart */
+.tc { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 6px; }
+.tc-y { position: relative; height: 200px; }
+.tc-y span { position: absolute; right: 0; font-size: 10.5px; color: var(--ink-3); transform: translateY(-50%); font-variant-numeric: tabular-nums; }
+.tc-plot { position: relative; height: 200px; display: flex; align-items: flex-end; gap: 4px; }
+.tc-grid { position: absolute; left: 0; right: 0; border-top: 1px dashed var(--line); pointer-events: none; }
+.tc-col { flex: 1; height: 100%; display: flex; align-items: flex-end; justify-content: center; gap: 2px; position: relative; border-radius: 6px; z-index: 1; }
+.tc-col:hover { background: var(--surface-2); }
+.tc-col i { display: block; width: 26%; max-width: 12px; border-radius: 4px 4px 1px 1px; min-height: 2px; }
+.tc-col i.s1 { background: var(--accent); } .tc-col i.s2 { background: var(--info); } .tc-col i.s3 { background: var(--gold); }
+.tc-col.sel { background: var(--accent-soft); }
+.tc-x { display: flex; gap: 4px; margin-left: 36px; margin-top: 6px; }
+.tc-x span { flex: 1; text-align: center; font-size: 10.5px; color: var(--ink-3); white-space: nowrap; }
+.legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--ink-2); font-weight: 600; }
+.legend i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; margin-right: 6px; vertical-align: -1px; }
+.tip { position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%); background: var(--ink); color: var(--bg); font-size: 11.5px; padding: 6px 9px; border-radius: 7px; white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity .12s; z-index: 5; font-weight: 600; }
+.tc-col:hover .tip { opacity: 1; }
+
+/* Ring */
+.ring { position: relative; display: inline-grid; place-items: center; flex: none; }
+.ring svg { transform: rotate(-90deg); }
+.ring .rc { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; }
+.ring .rc b { font-size: 22px; font-weight: 800; letter-spacing: -.03em; display: block; line-height: 1; }
+.ring .rc span { font-size: 10.5px; color: var(--ink-3); font-weight: 600; }
+
+/* Tables */
+.table-wrap { overflow-x: auto; }
+.tbl { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.tbl th { text-align: left; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-3); padding: 10px 14px; border-bottom: 1px solid var(--line); background: var(--surface-2); white-space: nowrap; }
+.tbl th:first-child { padding-left: 18px; } .tbl td:first-child { padding-left: 18px; }
+.tbl th:last-child, .tbl td:last-child { padding-right: 18px; }
+.tbl td { padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.tbl tbody tr:last-child td { border-bottom: 0; }
+.tbl th.n, .tbl td.n { text-align: right; }
+.tbl tfoot td { font-weight: 800; background: var(--surface-2); border-bottom: 0; border-top: 1px solid var(--line); }
+.tbl tr.clickable { cursor: pointer; }
+.tbl tr.clickable:hover td { background: var(--surface-2); }
+.inbar { display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
+.inbar .bar { width: 64px; }
+.who { display: flex; align-items: center; gap: 9px; min-width: 0; }
+.who .t { min-width: 0; }
+.who .nm { font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+.who .sb2 { font-size: 12px; color: var(--ink-3); display: block; }
+.av { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-size: 11.5px; font-weight: 800; color: #fff; flex: none; letter-spacing: -.02em; }
+.av.lg { width: 42px; height: 42px; font-size: 15px; }
+.av.xl { width: 52px; height: 52px; font-size: 18px; border-radius: 15px; }
+.pill { display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 700; padding: 3px 9px; border-radius: 99px; background: var(--surface-2); color: var(--ink-2); white-space: nowrap; }
+.pill.good { background: var(--good-soft); color: var(--good); } .pill.warn { background: var(--warn-soft); color: var(--warn); } .pill.bad { background: var(--bad-soft); color: var(--bad); }
+.pill.info { background: var(--info-soft); color: var(--info); } .pill.accent { background: var(--accent-soft); color: var(--accent); } .pill.gold { background: var(--gold-soft); color: var(--gold); }
+.pill .d { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.badge { min-width: 20px; height: 20px; padding: 0 6px; border-radius: 99px; background: var(--bad); color: #fff; font-size: 11px; font-weight: 800; display: inline-grid; place-items: center; }
+.badge.soft { background: var(--surface-2); color: var(--ink-3); }
+.sb .badge { background: var(--bad); }
+.chip { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 7px; background: var(--surface-2); color: var(--ink-2); }
+.chip.bad { background: var(--bad-soft); color: var(--bad); } .chip.warn { background: var(--warn-soft); color: var(--warn); } .chip.info { background: var(--info-soft); color: var(--info); } .chip.ok { background: var(--surface-2); color: var(--ink-2); }
+.chip svg { width: 13px; height: 13px; }
+.temp { display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 700; }
+.temp i { width: 8px; height: 8px; border-radius: 50%; }
+.temp.hot { color: var(--bad); } .temp.hot i { background: var(--bad); box-shadow: 0 0 0 3px var(--bad-soft); }
+.temp.warm { color: var(--warn); } .temp.warm i { background: var(--warn); box-shadow: 0 0 0 3px var(--warn-soft); }
+.temp.cold { color: var(--info); } .temp.cold i { background: var(--info); box-shadow: 0 0 0 3px var(--info-soft); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; border: 1px solid var(--line); background: var(--surface); padding: 8px 14px; border-radius: 10px; cursor: pointer; font-weight: 700; font-size: 13px; color: var(--ink); white-space: nowrap; text-decoration: none; }
+.btn:hover { background: var(--surface-2); }
+.btn.sm { padding: 5px 10px; font-size: 12px; border-radius: 8px; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); box-shadow: 0 6px 14px -8px var(--accent); }
+.btn.primary:hover { background: var(--accent-2); }
+.btn.good { color: var(--good); border-color: color-mix(in srgb, var(--good) 35%, var(--line)); }
+.btn.danger { color: var(--bad); border-color: color-mix(in srgb, var(--bad) 35%, var(--line)); }
+.btn.ghost { border-color: transparent; background: none; }
+.btn.ghost:hover { background: var(--surface-2); }
+.btn[disabled] { opacity: .5; cursor: default; }
+.btn svg { width: 16px; height: 16px; }
+.empty { padding: 28px 16px; text-align: center; color: var(--ink-3); font-size: 13px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.empty svg { width: 28px; height: 28px; color: var(--ink-3); opacity: .7; }
+.bar { height: 7px; background: var(--surface-3); border-radius: 99px; overflow: hidden; }
+.bar > i { display: block; height: 100%; background: var(--accent); border-radius: 99px; }
+.bar.good > i { background: var(--good); } .bar.gold > i { background: var(--gold); } .bar.info > i { background: var(--info); }
+.seg { display: inline-flex; background: var(--surface-2); border-radius: 10px; padding: 3px; gap: 2px; max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+.seg::-webkit-scrollbar { display: none; }
+.seg button, .seg label { white-space: nowrap; flex: none; border: 0; background: none; padding: 6px 12px; cursor: pointer; font-size: 12.5px; font-weight: 700; color: var(--ink-3); display: inline-flex; align-items: center; gap: 6px; border-radius: 8px; }
+.seg button[aria-pressed="true"], .seg label:has(input:checked) { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(15,27,45,.12); }
+.seg input { position: absolute; opacity: 0; pointer-events: none; }
+.datenav { display: inline-flex; align-items: center; gap: 4px; background: var(--surface-2); border-radius: 10px; padding: 3px; }
+.datenav button { border: 0; background: none; width: 30px; height: 30px; border-radius: 8px; cursor: pointer; display: grid; place-items: center; color: var(--ink-2); }
+.datenav button:hover:not([disabled]) { background: var(--surface); }
+.datenav button[disabled] { opacity: .35; cursor: default; }
+.datenav .lbl { font-size: 12.5px; font-weight: 700; min-width: 112px; text-align: center; }
+.datenav .today { width: auto; padding: 0 10px; font-size: 12px; font-weight: 700; color: var(--accent); }
+
+/* Routine stepper */
+.routine { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); box-shadow: var(--shadow); overflow: hidden; }
+.rt { display: flex; gap: 11px; align-items: flex-start; padding: 13px 16px; cursor: pointer; text-align: left; border-right: 1px solid var(--line); position: relative; }
+.rt:last-child { border-right: 0; }
+.rt:hover { background: var(--surface-2); }
+.rt.now { background: linear-gradient(180deg, var(--accent-soft), transparent); }
+.rt.now::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: var(--accent); }
+.rt .when { font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-3); }
+.rt.now .when { color: var(--accent); }
+.rt .txt { font-size: 13px; font-weight: 600; display: block; margin-top: 2px; }
+.rt input { margin-top: 3px; accent-color: var(--accent); width: 17px; height: 17px; flex: none; cursor: pointer; }
+.rt.done .txt { color: var(--ink-3); text-decoration: line-through; }
+
+/* Lists */
+.list { display: flex; flex-direction: column; }
+.li { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) auto; gap: 10px 14px; align-items: center; padding: 12px 18px; border-top: 1px solid var(--line); }
+.li:first-child { border-top: 0; }
+.li .ln { font-weight: 700; background: none; border: 0; padding: 0; cursor: pointer; text-align: left; color: var(--ink); font-size: 13.5px; }
+.li .ln:hover { color: var(--accent); }
+.li .sub { font-size: 12px; color: var(--ink-3); margin-top: 3px; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.prio { width: 4px; align-self: stretch; border-radius: 4px; }
+.filters { display: flex; flex-wrap: wrap; gap: 8px; padding: 14px 18px; border-bottom: 1px solid var(--line); align-items: center; }
+.filters input[type="search"] { flex: 1 1 220px; min-width: 0; }
+.inp, .filters input, .filters select, .field input, .field select, .field textarea, .tbl select { border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 8px 11px; min-width: 0; font-size: 13.5px; }
+.inp:focus, .filters input:focus, .filters select:focus, .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field .lbl { font-size: 12.5px; font-weight: 700; color: var(--ink-2); }
+.field .hint { font-size: 12px; color: var(--ink-3); }
+.field textarea { resize: vertical; }
+.fgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.fgrid .full { grid-column: 1 / -1; }
+.check { display: flex; gap: 8px; align-items: center; font-size: 13px; }
+.check input { accent-color: var(--accent); width: 16px; height: 16px; }
+.toggle { position: relative; display: inline-block; vertical-align: middle; width: 40px; height: 23px; flex: none; }
+.toggle input { opacity: 0; width: 100%; height: 100%; margin: 0; position: absolute; cursor: pointer; z-index: 1; }
+.toggle span { position: absolute; inset: 0; background: var(--surface-3); border-radius: 99px; transition: background .15s; }
+.toggle span::after { content: ""; position: absolute; top: 3px; left: 3px; width: 17px; height: 17px; border-radius: 50%; background: #fff; transition: transform .15s; box-shadow: 0 1px 3px rgba(0,0,0,.25); }
+.toggle input:checked + span { background: var(--accent); }
+.toggle input:checked + span::after { transform: translateX(17px); }
+.toggle.warn input:checked + span { background: var(--warn); }
+.toggle input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Leads table → cards on phones */
+.rtbl td .nm { font-weight: 700; display: block; }
+.rtbl td .ph { font-size: 12px; color: var(--ink-3); }
+
+/* Staff cards */
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+.scard { border: 1px solid var(--line); border-radius: var(--r); padding: 15px 16px; background: var(--surface); display: flex; flex-direction: column; gap: 12px; position: relative; overflow: hidden; }
+.scard::before { content: ""; position: absolute; left: 0; top: 0; right: 0; height: 3px; background: var(--line); }
+.scard.none::before { background: var(--bad); } .scard.ok::before { background: var(--good); } .scard.abs::before { background: var(--ink-3); }
+.mini { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.mini div { background: var(--surface-2); border-radius: 9px; padding: 7px 10px; }
+.mini b { font-size: 18px; font-weight: 800; display: block; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+.mini span { font-size: 11px; color: var(--ink-3); font-weight: 600; }
+.entries { display: flex; flex-direction: column; gap: 6px; font-size: 12.5px; }
+.entries .e { display: grid; grid-template-columns: 62px minmax(0, 1fr); gap: 8px; }
+.entries .e .tm { color: var(--ink-3); font-variant-numeric: tabular-nums; font-weight: 600; }
+.entries .e .tx { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink-2); }
+.linkish { background: none; border: 0; padding: 0; color: var(--accent); cursor: pointer; font-weight: 700; font-size: 12.5px; }
+
+/* Funnel & bars */
+.funnel { display: flex; flex-direction: column; gap: 6px; }
+.fn { display: grid; grid-template-columns: 120px minmax(0, 1fr) 96px; gap: 12px; align-items: center; font-size: 13px; font-weight: 600; }
+.fn .track { height: 30px; display: flex; justify-content: center; }
+.fn .track i { display: block; height: 100%; border-radius: 7px; min-width: 6px; background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 70%, var(--info))); }
+.fn .val { text-align: right; font-variant-numeric: tabular-nums; }
+.fn .val b { font-size: 16px; font-weight: 800; }
+.hbars { display: flex; flex-direction: column; gap: 10px; }
+.hb { display: grid; grid-template-columns: minmax(0, 160px) minmax(0, 1fr) 46px; gap: 12px; align-items: center; font-size: 13px; font-weight: 600; }
+.hb .track { height: 10px; background: var(--surface-2); border-radius: 99px; overflow: hidden; }
+.hb .track i { display: block; height: 100%; border-radius: 99px; background: var(--bad); }
+.hb .track.acc i { background: var(--accent); }
+.hb .val { text-align: right; font-variant-numeric: tabular-nums; font-weight: 800; }
+.rank { width: 26px; height: 26px; border-radius: 8px; display: grid; place-items: center; font-size: 12px; font-weight: 800; background: var(--surface-2); color: var(--ink-2); flex: none; }
+.rank.r1 { background: linear-gradient(140deg, #E9C36A, #B7841F); color: #fff; } .rank.r2 { background: linear-gradient(140deg, #C9D2DE, #8E9AAC); color: #fff; } .rank.r3 { background: linear-gradient(140deg, #E4A27A, #A8603A); color: #fff; }
+
+/* Pipeline board */
+.board { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(262px, 1fr); gap: 14px; overflow-x: auto; padding-bottom: 8px; align-items: start; }
+.col { background: var(--surface-2); border-radius: var(--r); padding: 10px; display: flex; flex-direction: column; gap: 9px; min-height: 260px; border: 2px dashed transparent; transition: border-color .12s, background .12s; }
+.col.over { border-color: var(--accent); background: var(--accent-soft); }
+.col-h { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 4px 4px 6px; }
+.col-h .t { font-weight: 800; font-size: 13px; display: flex; align-items: center; gap: 8px; }
+.col-h .t i { width: 9px; height: 9px; border-radius: 3px; }
+.col-h .c { font-size: 12px; font-weight: 700; color: var(--ink-3); background: var(--surface); border-radius: 99px; padding: 1px 8px; }
+.col-sum { font-size: 11.5px; color: var(--ink-3); padding: 0 4px; margin-top: -4px; font-weight: 600; }
+.kc { background: var(--surface); border: 1px solid var(--line); border-radius: 11px; padding: 11px 12px; display: flex; flex-direction: column; gap: 8px; cursor: grab; box-shadow: 0 1px 2px rgba(15,27,45,.05); text-align: left; width: 100%; }
+.kc:hover { border-color: color-mix(in srgb, var(--accent) 40%, var(--line)); box-shadow: var(--shadow); }
+.kc.dragging { opacity: .45; }
+.kc .nm { font-weight: 700; font-size: 13.5px; }
+.kc .pj { font-size: 12px; color: var(--ink-3); }
+.kc .ft { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.kc .av { width: 24px; height: 24px; font-size: 10px; }
+.col-more { font-size: 12px; color: var(--ink-3); text-align: center; padding: 4px; }
+
+/* Stepper */
+.stepper { display: flex; align-items: flex-start; gap: 0; }
+.st { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; position: relative; font-size: 10.5px; font-weight: 700; color: var(--ink-3); text-align: center; }
+.st::before { content: ""; position: absolute; top: 10px; left: -50%; right: 50%; height: 2px; background: var(--line); z-index: 0; }
+.st:first-child::before { display: none; }
+.st .c { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: var(--surface-2); border: 2px solid var(--line); z-index: 1; color: var(--ink-3); }
+.st.done { color: var(--ink-2); } .st.done::before { background: var(--accent); }
+.st.done .c { background: var(--accent); border-color: var(--accent); color: #fff; }
+.st.cur { color: var(--accent); } .st.cur .c { background: var(--surface); border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); color: var(--accent); }
+.st.cur::before { background: var(--accent); }
+.st .c svg { width: 12px; height: 12px; stroke-width: 3; }
+.stepper.lost .st.cur { color: var(--bad); } .stepper.lost .st.cur .c { border-color: var(--bad); box-shadow: 0 0 0 4px var(--bad-soft); color: var(--bad); }
+
+/* Timeline */
+.tl { display: flex; flex-direction: column; }
+.tl .it { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 12px; padding-bottom: 14px; position: relative; }
+.tl .it::before { content: ""; position: absolute; left: 14px; top: 30px; bottom: 0; width: 2px; background: var(--line); }
+.tl .it:last-child::before { display: none; }
+.tl .dot { width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent); }
+.tl .dot svg { width: 15px; height: 15px; }
+.tl .dot.good { background: var(--good-soft); color: var(--good); } .tl .dot.bad { background: var(--bad-soft); color: var(--bad); } .tl .dot.muted { background: var(--surface-2); color: var(--ink-3); } .tl .dot.info { background: var(--info-soft); color: var(--info); } .tl .dot.gold { background: var(--gold-soft); color: var(--gold); }
+.tl .h { font-size: 13px; font-weight: 700; padding-top: 2px; }
+.tl .m { font-size: 12px; color: var(--ink-3); margin-top: 1px; }
+.tl .x { font-size: 13px; color: var(--ink-2); margin-top: 5px; background: var(--surface-2); border-radius: 9px; padding: 7px 10px; }
+
+/* Drawer & modal */
+.drawer-back, .modal-back { position: fixed; inset: 0; background: rgba(6,12,22,.5); z-index: 60; display: flex; backdrop-filter: blur(2px); }
+.drawer-back { justify-content: flex-end; }
+.drawer { width: min(620px, 100%); height: 100%; background: var(--bg); overflow-y: auto; box-shadow: var(--shadow-lg); display: flex; flex-direction: column; animation: slidein .18s ease-out; }
+@keyframes slidein { from { transform: translateX(24px); opacity: .6; } to { transform: none; opacity: 1; } }
+.drawer .dh { position: sticky; top: 0; background: var(--surface); border-bottom: 1px solid var(--line); padding: 16px 18px; display: flex; flex-direction: column; gap: 14px; z-index: 2; }
+.drawer .db { padding: 18px; display: flex; flex-direction: column; gap: 16px; }
+.kv { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 18px; }
+.kv .k { font-size: 11px; color: var(--ink-3); font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
+.kv .v { font-size: 13.5px; font-weight: 600; overflow-wrap: anywhere; margin-top: 3px; }
+.qa { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.qa .btn { flex-direction: column; gap: 5px; padding: 11px 8px; font-size: 12px; white-space: normal; text-align: center; height: 100%; }
+.qa .btn svg { width: 19px; height: 19px; }
+.qa .btn.primary svg { color: inherit; }
+.qa2 { display: flex; flex-wrap: wrap; gap: 8px; }
+.modal-back { align-items: center; justify-content: center; padding: 16px; z-index: 70; }
+.modal { width: min(560px, 100%); max-height: calc(100% - 20px); overflow: auto; background: var(--surface); border-radius: 16px; box-shadow: var(--shadow-lg); display: flex; flex-direction: column; animation: pop .16s ease-out; }
+@keyframes pop { from { transform: translateY(8px) scale(.99); opacity: .5; } to { transform: none; opacity: 1; } }
+.modal.wide { width: min(760px, 100%); }
+.modal header { display: flex; align-items: center; justify-content: space-between; padding: 16px 18px; border-bottom: 1px solid var(--line); gap: 10px; }
+.modal .mb { padding: 18px; display: flex; flex-direction: column; gap: 14px; }
+.modal footer { display: flex; justify-content: flex-end; gap: 8px; padding: 12px 18px; border-top: 1px solid var(--line); position: sticky; bottom: 0; background: var(--surface); }
+.merr { margin: 0 18px; padding: 9px 12px; border-radius: 10px; background: var(--bad-soft); color: var(--bad); font-size: 13px; font-weight: 600; }
+.callout { padding: 11px 13px; border-radius: 11px; background: var(--surface-2); font-size: 13px; color: var(--ink-2); }
+.callout.warn { background: var(--warn-soft); color: var(--ink); } .callout.accent { background: var(--accent-soft); color: var(--ink); } .callout.bad { background: var(--bad-soft); color: var(--ink); }
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.split > div { background: var(--surface-2); border-radius: 11px; padding: 10px 12px; }
+.split .k { font-size: 11.5px; color: var(--ink-3); font-weight: 600; }
+.split .v { font-weight: 800; font-size: 18px; letter-spacing: -.02em; }
+.toasts { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); z-index: 90; display: flex; flex-direction: column; gap: 8px; align-items: center; pointer-events: none; }
+.toast { background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 11px; font-size: 13px; font-weight: 600; box-shadow: var(--shadow-lg); max-width: 92vw; display: flex; gap: 8px; align-items: center; }
+.toast.bad { background: var(--bad); color: #fff; }
+.center-screen { min-height: 100vh; display: grid; place-items: center; padding: 24px; background: radial-gradient(1200px 600px at 10% -10%, color-mix(in srgb, var(--accent) 16%, transparent), transparent), var(--bg); }
+.center-card { max-width: 470px; width: 100%; padding: 28px; display: flex; flex-direction: column; gap: 14px; }
+.center-card .brandrow { display: flex; gap: 12px; align-items: center; }
+.steps { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 7px; font-size: 13px; color: var(--ink-2); }
+.ring2 { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.ring2 .lk { display: inline-flex; align-items: center; gap: 6px; background: var(--surface-2); border-radius: 99px; padding: 4px 10px 4px 4px; font-size: 12.5px; font-weight: 600; }
+.ring2 .lk .av { width: 22px; height: 22px; font-size: 9.5px; }
+.skel { height: 14px; border-radius: 7px; background: linear-gradient(90deg, var(--surface-2), var(--surface-3), var(--surface-2)); background-size: 200% 100%; animation: sh 1.4s infinite linear; }
+@keyframes sh { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+.dispute { border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; background: var(--surface); }
+.dispute.need { border-color: color-mix(in srgb, var(--warn) 60%, var(--line)); box-shadow: 0 0 0 3px var(--warn-soft); }
+.ev { font-size: 12.5px; display: grid; grid-template-columns: 116px minmax(0, 1fr); gap: 5px 12px; padding: 10px 12px; background: var(--surface-2); border-radius: 11px; max-height: 280px; overflow: auto; }
+.ev .d { color: var(--ink-3); font-variant-numeric: tabular-nums; font-weight: 600; }
+.setrow { display: grid; grid-template-columns: minmax(0, 280px) minmax(0, 1fr); gap: 24px; padding: 20px 18px; border-top: 1px solid var(--line); }
+.setrow:first-child { border-top: 0; }
+.setrow .d h3 { margin-bottom: 4px; }
+.hero { display: flex; flex-direction: column; gap: 16px; padding: 20px 22px; border-radius: var(--r); background: linear-gradient(120deg, var(--side) 0%, #12304A 60%, #0E5A5A 100%); color: #fff; box-shadow: var(--shadow); position: relative; overflow: hidden; }
+.hero::after { content: ""; position: absolute; right: -60px; top: -80px; width: 260px; height: 260px; border-radius: 50%; border: 40px solid rgba(255,255,255,.04); }
+.hero h2 { font-size: 20px; font-weight: 800; color: #fff; }
+.hero .s { color: #B8C7D9; font-size: 13px; margin-top: 4px; }
+.hero-top { display: flex; gap: 16px; align-items: center; justify-content: space-between; z-index: 1; }
+.hero .hstats { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; z-index: 1; }
+.hero .hs { background: rgba(255,255,255,.06); border-radius: 11px; padding: 9px 12px; }
+.hero .hs b { display: block; font-size: 22px; font-weight: 800; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.hero .hs span { font-size: 11.5px; color: #9FB2C8; font-weight: 600; }
+.hero .ring .rc b { color: #fff; } .hero .ring .rc span { color: #9FB2C8; }
+
+/* Staff app */
+.logo.staff { background: linear-gradient(140deg, #E5AE45 0%, #B7701F 100%); box-shadow: 0 6px 16px -6px rgba(183,112,31,.7); }
+.applink { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface-2); }
+.applink .logo { width: 36px; height: 36px; font-size: 12px; border-radius: 10px; }
+.applink code { display: block; font-size: 11.5px; color: var(--ink-2); margin-top: 4px; overflow-wrap: anywhere; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.sapp { min-height: 100vh; background: var(--bg); }
+.s-wrap { max-width: 680px; margin: 0 auto; min-height: 100vh; padding-bottom: 170px; }
+.s-top { position: sticky; top: 0; z-index: 30; display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: color-mix(in srgb, var(--bg) 85%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+.s-top .logo { width: 36px; height: 36px; font-size: 13px; border-radius: 10px; }
+.s-brand { font-weight: 800; font-size: 15px; letter-spacing: -.01em; }
+.s-main { padding: 16px; display: flex; flex-direction: column; gap: 16px; }
+.s-main .banner { margin: 0; }
+.s-share { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(64px + env(safe-area-inset-bottom)); width: min(680px, 100%); padding: 0 12px 10px; z-index: 34; pointer-events: none; }
+.s-share .box { pointer-events: auto; display: flex; align-items: center; gap: 12px; background: var(--side); color: #fff; border-radius: 16px; padding: 10px 10px 10px 12px; box-shadow: var(--shadow-lg); }
+.s-share .box.ok { background: var(--surface); color: var(--ink); border: 1px solid var(--line); box-shadow: var(--shadow); }
+.s-share .ic { width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center; background: rgba(255,255,255,.1); color: #EAB04A; flex: none; }
+.s-share .ic.ok { background: var(--good-soft); color: var(--good); }
+.s-share .t { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.s-share .t b { font-size: 13.5px; } .s-share .t span { font-size: 12px; opacity: .72; }
+.snav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: min(680px, 100%); display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; background: var(--surface); border-top: 1px solid var(--line); padding: 6px 6px calc(6px + env(safe-area-inset-bottom)); z-index: 35; box-shadow: 0 -8px 24px -16px rgba(15,27,45,.3); }
+.snav button { border: 0; background: none; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px 2px; font-size: 11px; font-weight: 700; color: var(--ink-3); cursor: pointer; border-radius: 10px; position: relative; }
+.snav button svg { width: 21px; height: 21px; }
+.snav button[aria-current="page"] { color: var(--accent); }
+.snav button[aria-current="page"]::before { content: ""; position: absolute; top: -6px; left: 30%; right: 30%; height: 3px; border-radius: 0 0 3px 3px; background: var(--accent); }
+.snav .badge { position: absolute; top: 0; left: 54%; min-width: 17px; height: 17px; font-size: 10px; border: 2px solid var(--surface); }
+@media (min-width: 700px) { .snav { border: 1px solid var(--line); border-bottom: 0; border-radius: 16px 16px 0 0; } }
+.sapp .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+.sapp .g-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.sapp .g-21, .sapp .g-12, .sapp .g-3 { grid-template-columns: 1fr; }
+.sapp .hero .hstats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.sapp .li:not(.li2):not(.act) { grid-template-columns: minmax(0, 1fr) auto; }
+.sapp .li:not(.li2):not(.act) > :nth-child(2) { grid-column: 1 / -1; grid-row: 2; }
+.sapp .li.act { grid-template-columns: 4px minmax(0, 1fr) !important; }
+.sapp .li.act > .prio { grid-row: 1 / span 3; }
+.sapp .li.act > :nth-child(n+2) { grid-column: 2; }
+.lc { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 6px 12px; align-items: center; width: 100%; padding: 12px 16px; border: 0; border-top: 1px solid var(--line); background: none; text-align: left; cursor: pointer; color: var(--ink); }
+.lc:first-child { border-top: 0; } .lc:hover { background: var(--surface-2); }
+.lc .av { grid-row: span 2; align-self: start; }
+.lc .nm { font-weight: 700; display: block; } .lc .sub { font-size: 12px; color: var(--ink-3); }
+.lc .meta { grid-column: 2 / -1; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.ob { display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 11px 16px; border-top: 1px solid var(--line); }
+.ob:first-child { border-top: 0; }
+.ob .ic { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; }
+.ob b { font-size: 13.5px; } .ob .sub { font-size: 12px; color: var(--ink-3); margin-top: 2px; }
+.bigshare { width: 100%; padding: 13px; font-size: 14px; border-radius: 13px; }
+
+/* Mobile chrome */
+.bnav, .fab, .sheet-back, .mob-only, .mob-only-inline { display: none; }
+@media (max-width: 1180px) {
+  .kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .routine { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rt:nth-child(2) { border-right: 0; } .rt:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+  .g-21, .g-12 { grid-template-columns: 1fr; }
+}
+@media (max-width: 900px) {
+  .app { grid-template-columns: 1fr; }
+  .sb { display: none; }
+  .top { padding: 10px 14px; gap: 10px; }
+  .top .logo { display: grid; }
+  .top-title { display: block; flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .search { display: none; }
+  .search.open { display: block; position: fixed; left: 0; right: 0; top: 0; max-width: none; padding: 10px 12px; background: var(--bg); z-index: 50; border-bottom: 1px solid var(--line); }
+  .search.open > svg { left: 24px; } .search.open kbd { display: none; }
+  .search.open .dd { left: 12px; right: 12px; }
+  .top-actions .btn.newlead { display: none; }
+  .mob-only { display: grid; }
+  .content { padding: 16px 14px 110px; }
+  .g-2, .g-3 { grid-template-columns: 1fr; }
+  .bnav { display: grid; position: fixed; left: 0; right: 0; bottom: 0; z-index: 35; background: var(--surface); border-top: 1px solid var(--line); padding: 6px 6px calc(6px + env(safe-area-inset-bottom)); grid-auto-flow: column; grid-auto-columns: 1fr; box-shadow: 0 -8px 24px -16px rgba(15,27,45,.3); }
+  .bnav button { border: 0; background: none; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px 2px; font-size: 10.5px; font-weight: 700; color: var(--ink-3); cursor: pointer; border-radius: 10px; position: relative; }
+  .bnav button svg { width: 21px; height: 21px; }
+  .bnav button[aria-current="page"] { color: var(--accent); }
+  .bnav button[aria-current="page"]::before { content: ""; position: absolute; top: -6px; left: 30%; right: 30%; height: 3px; border-radius: 0 0 3px 3px; background: var(--accent); }
+  .bnav .badge { position: absolute; top: 0; left: 54%; min-width: 17px; height: 17px; font-size: 10px; border: 2px solid var(--surface); }
+  .fab { display: grid; position: fixed; right: 16px; bottom: calc(76px + env(safe-area-inset-bottom)); width: 54px; height: 54px; border-radius: 17px; background: var(--accent); color: var(--accent-ink); border: 0; place-items: center; z-index: 36; box-shadow: 0 12px 24px -10px var(--accent); cursor: pointer; }
+  .fab svg { width: 24px; height: 24px; stroke-width: 2.2; }
+  .sheet-back { display: flex; position: fixed; inset: 0; background: rgba(6,12,22,.5); z-index: 65; align-items: flex-end; }
+  .sheet { width: 100%; background: var(--surface); border-radius: 18px 18px 0 0; padding: 10px 12px calc(16px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 2px; animation: up .18s ease-out; }
+  @keyframes up { from { transform: translateY(30px); } to { transform: none; } }
+  .sheet .grab { width: 40px; height: 4px; border-radius: 99px; background: var(--surface-3); margin: 0 auto 8px; }
+  .sheet button.si { display: flex; align-items: center; gap: 12px; border: 0; background: none; padding: 12px 10px; border-radius: 10px; font-weight: 700; font-size: 14px; cursor: pointer; text-align: left; color: var(--ink); }
+  .sheet button.si:hover { background: var(--surface-2); }
+  .sheet button.si .badge { margin-left: auto; }
+  .notif .dd { position: fixed; left: 12px; right: 12px; top: 60px; width: auto; }
+}
+@media (max-width: 720px) {
+  h1 { font-size: 21px; }
+  .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .kpi { padding: 12px 13px; } .kpi-v { font-size: 24px; } .kpi .spark { display: none; }
+  .routine { grid-template-columns: 1fr; } .rt { border-right: 0; border-bottom: 1px solid var(--line); } .rt:last-child { border-bottom: 0; }
+  .li:not(.li2):not(.act) { grid-template-columns: minmax(0, 1fr) auto; padding: 12px 14px; }
+  .li:not(.li2):not(.act) > :nth-child(2) { grid-column: 1 / -1; grid-row: 2; }
+  .li.li2 { padding-left: 14px; padding-right: 14px; }
+  .li.act { grid-template-columns: 4px minmax(0, 1fr) !important; padding: 12px 14px; }
+  .li.act > .prio { grid-row: 1 / span 3; }
+  .li.act > :nth-child(n+2) { grid-column: 2; }
+  .fgrid, .kv { grid-template-columns: 1fr; }
+  .fn { grid-template-columns: 92px minmax(0, 1fr) 70px; gap: 8px; }
+  .hb { grid-template-columns: minmax(0, 110px) minmax(0, 1fr) 36px; }
+  .rtbl thead { display: none; }
+  .mob-only-inline { display: inline; }
+  .rtbl, .rtbl tbody, .rtbl tr, .rtbl td { display: block; width: 100%; }
+  .rtbl tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 7px 10px; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+  .rtbl td { padding: 0 !important; border: 0 !important; }
+  .rtbl td.hm { display: none; }
+  .rtbl td.span { grid-column: 1 / -1; }
+  .rtbl td.n { text-align: left; }
+  .modal-back { padding: 0; align-items: flex-end; }
+  .modal { border-radius: 18px 18px 0 0; max-height: 94%; }
+  .qa { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .setrow { grid-template-columns: 1fr; gap: 12px; }
+  .tc-y, .tc-plot { height: 160px; }
+  .hero { padding: 18px; } .hero .hstats { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; } .hero .hs b { font-size: 19px; }
+  .content { padding-left: 12px; padding-right: 12px; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+<div id="app"><div class="center-screen"><div class="card center-card"><div class="brandrow"><div class="logo staff">VS</div><div><b style="font-size:16px">Veershree Staff</b><div class="small muted">Loading…</div></div></div><div class="skel"></div><div class="skel" style="width:70%"></div></div></div></div>
+<div id="drawer-root"></div>
+<div id="modal-root"></div>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+<script>
+'use strict';
+/* ================= Utilities ================= */
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const HOUR = 3600e3, DAY = 86400e3, MIN = 60e3;
+const RECENT_DAYS = 120;
+const pad = n => String(n).padStart(2, '0');
+const dayKey = ms => { const d = new Date(ms); return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`; };
+const startOfDay = ms => { const d = new Date(ms); d.setHours(0, 0, 0, 0); return d.getTime(); };
+const keyToMs = k => { const [y, m, d] = k.split('-').map(Number); return new Date(y, m - 1, d).getTime(); };
+const addDays = (ms, n) => { const d = new Date(ms); d.setDate(d.getDate() + n); return d.getTime(); };
+const weekStart = ms => { const d = new Date(startOfDay(ms)); d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); return d.getTime(); };
+const monthStart = ms => { const d = new Date(ms); return new Date(d.getFullYear(), d.getMonth(), 1).getTime(); };
+const addMonths = (ms, n) => { const d = new Date(ms); return new Date(d.getFullYear(), d.getMonth() + n, 1).getTime(); };
+const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const WD = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const fmtDate = ms => { const d = new Date(ms); return `${d.getDate()} ${MON[d.getMonth()]}`; };
+const fmtTime = ms => { const d = new Date(ms); let h = d.getHours(); const ap = h >= 12 ? 'PM' : 'AM'; h = h % 12 || 12; return `${h}:${pad(d.getMinutes())} ${ap}`; };
+function fmtDT(ms) {
+  if (!ms) return '—';
+  const k = dayKey(ms), now = Date.now();
+  if (k === dayKey(now)) return 'Today ' + fmtTime(ms);
+  if (k === dayKey(addDays(now, -1))) return 'Yesterday ' + fmtTime(ms);
+  if (k === dayKey(addDays(now, 1))) return 'Tomorrow ' + fmtTime(ms);
+  return `${fmtDate(ms)}, ${fmtTime(ms)}`;
+}
+function fmtDur(ms) {
+  ms = Math.max(0, ms);
+  if (ms < HOUR) return Math.max(1, Math.round(ms / MIN)) + ' min';
+  if (ms < 48 * HOUR) return Math.round(ms / HOUR) + ' h';
+  return Math.round(ms / DAY) + ' days';
+}
+const fmtHrs = ms => ms == null ? '—' : (ms < HOUR ? Math.round(ms / MIN) + ' min' : (ms / HOUR).toFixed(1) + ' h');
+const money = n => '₹' + Math.round(n || 0).toLocaleString('en-IN');
+const uidGen = () => Math.random().toString(36).slice(2, 9) + Date.now().toString(36).slice(-5);
+const toLocalInput = ms => { const d = new Date(ms); return `${dayKey(ms)}T${pad(d.getHours())}:${pad(d.getMinutes())}`; };
+const fromLocalInput = v => { if (!v) return null; const t = new Date(v).getTime(); return isNaN(t) ? null : t; };
+const tomorrowAt = h => { const d = new Date(addDays(startOfDay(Date.now()), 1)); d.setHours(h, 0, 0, 0); return d.getTime(); };
+const digits = s => String(s || '').replace(/\D/g, '');
+const phoneKey = s => digits(s).slice(-10);
+const clean = o => JSON.parse(JSON.stringify(o));
+const lines = s => String(s || '').split('\n').map(x => x.trim()).filter(Boolean);
+function hashHue(s) { let h = 0; for (const c of String(s)) h = (h * 31 + c.charCodeAt(0)) >>> 0; return h % 360; }
+function initials(n) { const p = String(n || '?').trim().split(/\s+/); return ((p[0] || '?')[0] + (p.length > 1 ? p[p.length - 1][0] : '')).toUpperCase(); }
+function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* storage unavailable */ } }
+
+/* ================= Constants ================= */
+const DEFAULT_SETTINGS = {
+  ownerName: 'Owner',
+  projects: ['Veershree Vista Residency', 'Veershree Elite Residency', 'Veershree Arista', 'Veershree Crest', 'Veershree Enclave', 'Veershree Industrial Park'],
+  sources: ['Facebook / Instagram ad', 'Google', 'Website', 'Walk-in', 'Referral', 'Hoarding / banner', 'Broker', 'Other'],
+  lostReasons: ['Budget too high', 'Location not suitable', 'Bought elsewhere', 'Not reachable', 'Only enquiring', 'Loan not approved', 'Family decision pending', 'Other'],
+  incentivePerBooking: 10000, ownerShare: 60, closerShare: 40,
+  monthlyTarget: 10, teamBonus: 5000, slaHours: 24,
+};
+const STATUS = {
+  new: ['New', ''], followup: ['Following up', 'info'], visit_scheduled: ['Visit scheduled', 'accent'], visit_done: ['Visit done', 'accent'],
+  negotiation: ['Negotiation', 'warn'], booked: ['Booked', 'good'], lost: ['Lost', 'bad'],
+};
+const STATUS_COLOR = { new: 'var(--ink-3)', followup: 'var(--info)', visit_scheduled: 'var(--accent)', visit_done: 'var(--accent-2)', negotiation: 'var(--warn)', booked: 'var(--good)', lost: 'var(--bad)' };
+const LOGT = {
+  created: 'Lead added', assigned: 'Reassigned', followup: 'Follow-up', visit_scheduled: 'Site visit scheduled', visit_done: 'Site visit done',
+  advance: 'Deal moved forward', booked: 'Booked', lost: 'Marked lost', reopened: 'Reopened', edited: 'Details edited',
+  flag: 'Owner asked senior to act', flag_done: 'Flag handled',
+};
+const LOG_ICON = { created: ['userplus', 'muted'], assigned: ['swap', 'muted'], followup: ['phone', ''], visit_scheduled: ['calendar', 'info'], visit_done: ['pin', 'info'], advance: ['trend', 'gold'], booked: ['key', 'good'], lost: ['xcircle', 'bad'], reopened: ['refresh', 'muted'], edited: ['edit', 'muted'], flag: ['flag', 'bad'], flag_done: ['check', 'good'] };
+const CHANNELS = { call: 'Call', whatsapp: 'WhatsApp', meeting: 'Meeting', sms: 'SMS' };
+const OUTCOMES = ['Interested', 'Call back later', 'Visit agreed', 'Thinking / comparing', 'Not reachable', 'Not interested'];
+const CONTACT_TYPES = ['followup', 'visit_scheduled', 'visit_done', 'advance', 'booked', 'lost'];
+const ROLE_LABEL = { owner: 'Owner', senior: 'Senior', staff: 'Staff' };
+const NAV = {
+  owner: [['Overview', [['dashboard', 'Daily control']]], ['Sales', [['leads', 'Leads'], ['pipeline', 'Pipeline']]], ['Insights', [['weekly', 'Weekly review'], ['incentives', 'Incentives']]], ['Admin', [['team', 'Team & access'], ['audit', 'Change log'], ['settings', 'Settings']]]],
+  senior: [['Overview', [['myday', 'My day'], ['watch', 'Team watch']]], ['Sales', [['leads', 'Leads'], ['pipeline', 'Pipeline']]], ['Insights', [['weekly', 'Weekly review'], ['incentives', 'Incentives']]]],
+  staff: [['Overview', [['myday', 'My day']]], ['Sales', [['leads', 'Leads'], ['pipeline', 'Pipeline']]], ['Insights', [['incentives', 'My incentives']]]],
+};
+const viewsOf = role => NAV[role].flatMap(g => g[1]);
+const SHORT = { dashboard: 'Today', myday: 'My day', watch: 'Watch', leads: 'Leads', pipeline: 'Pipeline', weekly: 'Weekly', incentives: 'Incentives', team: 'Team', audit: 'Log', settings: 'Settings' };
+const ICONS = {
+  dashboard: '<rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/>',
+  myday: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+  watch: '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+  leads: '<path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/>',
+  pipeline: '<rect x="3" y="4" width="5" height="16" rx="1.5"/><rect x="10" y="4" width="5" height="11" rx="1.5"/><rect x="17" y="4" width="4" height="7" rx="1.5"/>',
+  weekly: '<path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/>',
+  incentives: '<path d="M7 4h11M7 9h11M7 4c5 0 7 2 7 5s-2 5-7 5h-1l8 7"/>',
+  team: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.3-6 6.5-6s5.9 2.4 6.5 6"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17 14c2.6.2 4.2 2.2 4.5 5"/>',
+  audit: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  settings: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
+  search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
+  bell: '<path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
+  plus: '<path d="M12 5v14M5 12h14"/>',
+  phone: '<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/>',
+  chat: '<path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.6 8.6 0 0 1-3.8-.9L3 21l1.9-5.2A8.4 8.4 0 1 1 21 11.5z"/>',
+  copy: '<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
+  download: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+  moon: '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>',
+  chl: '<path d="m15 18-6-6 6-6"/>', chr: '<path d="m9 18 6-6-6-6"/>',
+  more: '<circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/>',
+  check: '<path d="M20 6 9 17l-5-5"/>', x: '<path d="M18 6 6 18M6 6l12 12"/>',
+  flag: '<path d="M4 22V4a1 1 0 0 1 1-1h12l-2 4 2 4H5"/>',
+  calendar: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+  pin: '<path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/>',
+  trend: '<path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/>',
+  trophy: '<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/>',
+  alert: '<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/>',
+  userplus: '<circle cx="9" cy="8" r="4"/><path d="M2 21c.7-4 3.6-6 7-6s6.3 2 7 6"/><path d="M19 8v6M16 11h6"/>',
+  key: '<path d="m21 2-9.6 9.6"/><circle cx="7.5" cy="15.5" r="5.5"/><path d="m15.5 7.5 3 3L22 7l-3-3"/>',
+  xcircle: '<circle cx="12" cy="12" r="9"/><path d="m15 9-6 6M9 9l6 6"/>',
+  swap: '<path d="m17 3 4 4-4 4"/><path d="M21 7H9"/><path d="m7 21-4-4 4-4"/><path d="M3 17h12"/>',
+  edit: '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 1 1 3 3L7 19l-4 1 1-4z"/>',
+  refresh: '<path d="M21 12a9 9 0 1 1-2.6-6.4L21 8"/><path d="M21 3v5h-5"/>',
+  target: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
+  funnel: '<path d="M3 4h18l-7 8v6l-4 2v-8z"/>',
+  note: '<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/>',
+  wallet: '<path d="M20 7H5a2 2 0 0 1 0-4h13v4"/><path d="M3 5v14a2 2 0 0 0 2 2h15V7"/><circle cx="16" cy="14" r="1.5"/>',
+  inbox: '<path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.5 5.1 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.5-6.9A2 2 0 0 0 16.8 4H7.2a2 2 0 0 0-1.7 1.1z"/>',
+  shield: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+};
+const APP_URL = 'https://claude.ai/artifact/9LcVYav4sYDXJfXecHZYfe';
+const STAFF_URL = APP_URL + '#staff';
+const ADMIN_URL = APP_URL + '#admin';
+const icon = (n, cls) => `<svg class="i${cls ? ' ' + cls : ''}" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n] || ''}</svg>`;
+
+
+/* ================= Shared components ================= */
+function statusPill(s) { const st = STATUS[s] || [s, '']; return `<span class="pill ${st[1]}"><span class="d"></span>${esc(st[0])}</span>`; }
+function alertChip(a) { return a ? `<span class="chip ${a.lvl}">${icon(a.lvl === 'bad' ? 'alert' : a.lvl === 'warn' ? 'clock' : 'calendar')}${esc(a.txt)}</span>` : ''; }
+function leadAlert(l, now = Date.now()) {
+  if (l.closed) return null;
+  const sla = cfg().slaHours * HOUR;
+  if (!l.firstFollowupAt) {
+    const age = now - (l.assignedAt || l.createdAt || now);
+    if (age > sla) return { lvl: 'bad', txt: `No follow-up for ${fmtDur(age)}`, age };
+    return { lvl: 'warn', txt: `New · first call due in ${fmtDur(sla - age)}`, age };
+  }
+  if (l.status === 'visit_scheduled' && l.visitAt) {
+    const over = now - l.visitAt;
+    if (over > sla) return { lvl: 'bad', txt: `Site visit of ${fmtDate(l.visitAt)} not updated`, age: over };
+    if (over > 0) return { lvl: 'warn', txt: 'Visit time passed · record the result', age: over };
+    if (dayKey(l.visitAt) === dayKey(now)) return { lvl: 'info', txt: `Site visit today ${fmtTime(l.visitAt)}`, age: 0 };
+    return { lvl: 'ok', txt: `Site visit ${fmtDT(l.visitAt)}`, age: 0, at: l.visitAt };
+  }
+  if (l.nextFollowupAt) {
+    const over = now - l.nextFollowupAt;
+    if (over > sla) return { lvl: 'bad', txt: `Follow-up overdue by ${fmtDur(over)}`, age: over };
+    if (over > 0) return { lvl: 'warn', txt: `Follow-up was due ${fmtDur(over)} ago`, age: over };
+    if (dayKey(l.nextFollowupAt) === dayKey(now)) return { lvl: 'info', txt: `Follow-up today ${fmtTime(l.nextFollowupAt)}`, age: 0 };
+    return { lvl: 'ok', txt: `Next follow-up ${fmtDT(l.nextFollowupAt)}`, age: 0, at: l.nextFollowupAt };
+  }
+  const quiet = now - (l.lastTouchAt || l.firstFollowupAt);
+  if (quiet > sla) return { lvl: 'bad', txt: `No follow-up planned · last contact ${fmtDur(quiet)} ago`, age: quiet };
+  return { lvl: 'warn', txt: 'Set the next follow-up date', age: quiet };
+}
+const LVL_RANK = { bad: 0, warn: 1, info: 2, ok: 3 };
+function tempOf(l, now = Date.now()) {
+  if (l.closed) return null;
+  const last = l.lastTouchAt || l.assignedAt || l.createdAt || now; const days = (now - last) / DAY;
+  const lastFu = (l.log || []).filter(e => e.t === 'followup').slice(-1)[0];
+  const out = lastFu && lastFu.outcome;
+  if (out === 'Not interested' || out === 'Not reachable' || days > 7) return 'cold';
+  if (l.status === 'negotiation' || (l.status === 'visit_done' && days < 6)) return 'hot';
+  if (l.status === 'visit_scheduled' || out === 'Interested' || out === 'Visit agreed' || l.status === 'new') return 'warm';
+  return days > 4 ? 'cold' : 'warm';
+}
+function tempBadge(t) { return t ? `<span class="temp ${t}"><i></i>${t === 'hot' ? 'Hot' : t === 'warm' ? 'Warm' : 'Cold'}</span>` : ''; }
+function ring(pct, size, sw, color, inner) {
+  const r = (size - sw) / 2, c = 2 * Math.PI * r, v = Math.max(0, Math.min(100, pct || 0));
+  return `<span class="ring" style="width:${size}px;height:${size}px"><svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" aria-hidden="true"><circle cx="${size / 2}" cy="${size / 2}" r="${r}" style="fill:none;stroke:var(--surface-3);stroke-width:${sw}"/><circle cx="${size / 2}" cy="${size / 2}" r="${r}" style="fill:none;stroke:${color};stroke-width:${sw};stroke-linecap:round;stroke-dasharray:${(c * v / 100).toFixed(1)} ${c.toFixed(1)}"/></svg><span class="rc"><span>${inner}</span></span></span>`;
+}
+function emptyState(ic, text) { return `<div class="empty">${icon(ic)}<span>${text}</span></div>`; }
+function sectionHead(ic, tone, title, sub, right, id) {
+  return `<div class="card-h" ${id ? `id="${id}"` : ''}><div class="ct"><span class="cic tone-${tone}">${icon(ic, 'sm')}</span><div><h2>${title}</h2>${sub ? `<div class="card-sub">${sub}</div>` : ''}</div></div>${right || ''}</div>`;
+}
+function clientAv(name, cls) { const hue = hashHue(name || '?'); return `<span class="av${cls ? ' ' + cls : ''}" style="background:linear-gradient(140deg,hsl(${hue} 42% 48%),hsl(${(hue + 40) % 360} 46% 34%))" aria-hidden="true">${esc(initials(name))}</span>`; }
+function openModal(title, body, opts = {}) {
+  S.modal = opts;
+  $('#modal-root').innerHTML = `<div class="modal-back" data-act="modal-back"><form class="modal ${opts.wide ? 'wide' : ''}" id="modal-form" role="dialog" aria-modal="true" aria-labelledby="modal-title" novalidate>
+    <header><h2 id="modal-title">${esc(title)}</h2><button type="button" class="icon-btn" data-act="modal-close" aria-label="Close">×</button></header>
+    <div class="mb">${body}</div><div class="merr hide" id="modal-err" role="alert"></div>
+    <footer>${opts.noSubmit ? `<button type="button" class="btn" data-act="modal-close">Close</button>` : `<button type="button" class="btn ghost" data-act="modal-close">Cancel</button><button type="submit" class="btn ${opts.danger ? 'danger' : 'primary'}" id="modal-submit">${esc(opts.submit || 'Save')}</button>`}</footer>
+  </form></div>`;
+  const first = $('#modal-form .mb').querySelector('input:not([type=hidden]):not([type=radio]),select,textarea');
+  if (first && !opts.noFocus) setTimeout(() => first.focus(), 30);
+  if (opts.preview) opts.preview($('#modal-form'));
+}
+function closeModal() { S.modal = null; $('#modal-root').innerHTML = ''; }
+function modalErr(msg) { const e = $('#modal-err'); if (!e) return; e.textContent = msg; e.classList.remove('hide'); }
+function confirmBox(title, text, submit, onOk, danger) { openModal(title, `<p style="margin:0">${text}</p>`, { submit, danger, onSubmit: onOk, noFocus: true }); }
+const opt = (v, label, sel) => `<option value="${esc(v)}" ${sel ? 'selected' : ''}>${esc(label)}</option>`;
+const fv = (form, n) => { const el = form.elements.namedItem(n); return el ? el.value : ''; };
+function captureFocus() { const a = document.activeElement; if (a && a.id && a.closest('#app')) { let st = null, en = null; try { st = a.selectionStart; en = a.selectionEnd; } catch (e) { /* not a text input */ } return { id: a.id, st, en }; } return null; }
+function restoreFocus(f) { if (!f) return; const el = document.getElementById(f.id); if (!el) return; el.focus({ preventScroll: true }); try { if (f.st != null) el.setSelectionRange(f.st, f.en); } catch (e) { /* not a text input */ } }
+const isDark = () => { const t = document.documentElement.dataset.theme; if (t) return t === 'dark'; try { return matchMedia('(prefers-color-scheme: dark)').matches; } catch (e) { return false; } };
+const STAGES = [['new', 'New'], ['followup', 'Contacted'], ['visit_scheduled', 'Visit set'], ['visit_done', 'Visited'], ['negotiation', 'Negotiation'], ['booked', 'Booked']];
+function stageIdx(l) {
+  const order = STAGES.map(s => s[0]); let i = order.indexOf(l.status);
+  if (l.status === 'lost' || i < 0) { i = 0; const lg = l.log || []; if (lg.some(e => e.t === 'advance')) i = 4; else if (lg.some(e => e.t === 'visit_done')) i = 3; else if (lg.some(e => e.t === 'visit_scheduled')) i = 2; else if (lg.some(e => e.t === 'followup')) i = 1; }
+  return i;
+}
+function stageStepper(l) {
+  const ci = stageIdx(l); const lost = l.status === 'lost';
+  return `<div class="stepper ${lost ? 'lost' : ''}">${STAGES.map(([k, t], i) => `<div class="st ${i < ci || (i === ci && l.status === 'booked') ? 'done' : i === ci ? 'cur' : ''}"><span class="c">${i < ci || (i === ci && l.status === 'booked') ? icon('check') : i === ci && lost ? icon('x') : i + 1}</span>${esc(t)}</div>`).join('')}</div>`;
+}
+
+/* ================= Staff App: state ================= */
+const cfg = () => DEFAULT_SETTINGS;
+const IN_CLAUDE = !!(window.claude && typeof window.claude.use === 'function');
+function downloadBlob(filename, text, type) {
+  const blob = new Blob([text], { type: type || 'application/json' }); const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = filename; document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
+}
+async function shareOrDownload(filename, text) {
+  try {
+    const file = new File([text], filename, { type: 'application/json' });
+    if (navigator.canShare && navigator.canShare({ files: [file] }) && /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)) { await navigator.share({ files: [file], title: filename }); return 'shared'; }
+  } catch (e) { if (e && e.name === 'AbortError') return 'cancelled'; }
+  downloadBlob(filename, text); return 'downloaded';
+}
+const LS_KEY = 'veershree-staff-v1';
+const FILE_STAFF = 'veershree-staff-export';
+const FILE_ADMIN = 'veershree-admin-leads';
+const FILE_BACKUP = 'veershree-staff-backup';
+const S = {
+  mode: 'loading', db: null, user: null, me: null, myName: '', unsub: null,
+  profile: null, meta: { exports: [], adminImports: [] }, leads: new Map(), ver: 0, loaded: false, stale: false,
+  view: 'home', drawer: null, modal: null, lf: { q: '', f: 'open' }, dirty: {}, demoReason: '', pendingExport: null,
+};
+const leadsArr = () => [...S.leads.values()];
+const getLead = id => S.leads.get(id);
+const meName = () => (S.profile && S.profile.name) || S.myName || 'You';
+const clone = o => JSON.parse(JSON.stringify(o));
+const slug = s => String(s || 'staff').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'staff';
+function toast(msg, bad) { const t = document.createElement('div'); t.className = 'toast' + (bad ? ' bad' : ''); t.textContent = msg; $('#toasts').appendChild(t); setTimeout(() => t.remove(), bad ? 5200 : 2800); }
+
+/* ================= Storage: Claude account (cloud) or this phone (device) ================= */
+const wq = new Map();
+function queued(key, fn) { const prev = wq.get(key) || Promise.resolve(); const p = prev.catch(() => {}).then(fn); wq.set(key, p); return p; }
+const basePath = () => `data/users/${S.me}`;
+function saveDevice() {
+  try { localStorage.setItem(LS_KEY, JSON.stringify({ profile: S.profile, meta: S.meta, leads: leadsArr() })); return true; }
+  catch (e) { toast('Couldn\'t save on this phone. Download a backup from Profile.', true); return false; }
+}
+function loadDevice() {
+  try { const d = JSON.parse(localStorage.getItem(LS_KEY) || 'null'); if (!d) return false; S.profile = d.profile || null; S.meta = Object.assign({ exports: [], adminImports: [] }, d.meta || {}); S.leads = new Map((d.leads || []).map(l => [l.id, l])); return true; }
+  catch (e) { return false; }
+}
+function switchToDevice() {
+  if (S.mode === 'device') return;
+  S.mode = 'device'; if (S.unsub) { try { S.unsub(); } catch (e) { /* closed */ } S.unsub = null; }
+  saveDevice(); render();
+  toast('Your account can\'t save online here, so the app now saves on this phone. Send to Admin often.', true);
+}
+function persist(kind, obj) {
+  S.ver++;
+  if (S.mode === 'demo') return Promise.resolve();
+  if (S.mode === 'device') { saveDevice(); return Promise.resolve(); }
+  const id = kind === 'lead' ? obj.id : kind;
+  const data = clean(Object.assign({ kind }, obj));
+  return queued(id, () => S.db.doc(`${basePath()}/${id}`).set(data)).catch(e => {
+    if (e && (e.code === 'invalid_argument' || e.code === 'revoked' || e.code === 'not_granted')) { switchToDevice(); return; }
+    toast('Couldn\'t save online right now. Check your connection.', true); throw e;
+  });
+}
+function startCloud() {
+  const t = setTimeout(() => { if (!S.loaded) { S.stale = true; render(); } }, 10000);
+  S.unsub = S.db.collection(basePath()).onSnapshot(snap => {
+    clearTimeout(t); if (!snap.metadata || !snap.metadata.fromCache) S.stale = false;
+    const leads = new Map(); let profile = null, meta = null;
+    snap.docs.forEach(d => { const x = d.data(); if (!x) return; if (d.id === 'profile') profile = x; else if (d.id === 'meta') meta = x; else if (x.kind === 'lead') leads.set(d.id, Object.assign({}, x, { id: d.id })); });
+    S.profile = profile; S.meta = Object.assign({ exports: [], adminImports: [] }, meta || {}); S.leads = leads; S.loaded = true; S.ver++; schedule();
+  }, e => {
+    clearTimeout(t); console.warn('Data error', e);
+    if (!S.loaded) { S.mode = 'device'; loadDevice(); S.loaded = true; render(); } else { S.stale = true; render(); }
+  });
+}
+
+/* ================= Lead logic ================= */
+function applyLocal(L, e) {
+  L.log = (L.log || []).concat([e]);
+  switch (e.t) {
+    case 'followup': if (!L.status || L.status === 'new') L.status = 'followup'; L.nextFollowupAt = e.next || null; break;
+    case 'visit_scheduled': L.status = 'visit_scheduled'; L.visitAt = e.when || null; L.nextFollowupAt = null; break;
+    case 'visit_done': L.status = 'visit_done'; L.visitDoneAt = e.at; L.nextFollowupAt = e.next || null; break;
+    case 'advance': L.status = 'negotiation'; L.nextFollowupAt = e.next || null; break;
+    case 'booked': L.status = 'booked'; L.bookedAt = e.bookedAt || e.at; L.plotNo = e.plotNo || ''; L.dealValue = Number(e.dealValue) || 0; L.nextFollowupAt = null; break;
+    case 'lost': L.status = 'lost'; L.lostAt = e.at; L.lostReason = e.reason || 'Other'; L.nextFollowupAt = null; break;
+    case 'reopened': L.status = 'followup'; L.nextFollowupAt = e.next || null; L.bookedAt = null; L.lostAt = null; L.lostReason = null; break;
+    case 'edited': Object.assign(L, e.fields || {}); break;
+  }
+  L.closed = L.status === 'booked' || L.status === 'lost';
+  if (CONTACT_TYPES.includes(e.t)) { L.lastTouchAt = Math.max(L.lastTouchAt || 0, e.at); if (!L.firstFollowupAt && e.at >= (L.assignedAt || 0)) L.firstFollowupAt = e.at; }
+  L.lastActivityAt = Math.max(L.lastActivityAt || 0, e.at);
+}
+const UNDO_KEYS = ['status', 'closed', 'nextFollowupAt', 'visitAt', 'visitDoneAt', 'bookedAt', 'plotNo', 'dealValue', 'lostAt', 'lostReason', 'firstFollowupAt', 'lastTouchAt', 'lastActivityAt', 'name', 'phone', 'project', 'source', 'budget', 'notes'];
+async function logEntry(id, e) {
+  const src = getLead(id); if (!src) return;
+  const L = clone(src); const undo = {}; UNDO_KEYS.forEach(k => { undo[k] = L[k] === undefined ? null : L[k]; });
+  const x = Object.assign({ id: 'e' + uidGen(), at: Date.now() }, clean(e), { undo });
+  applyLocal(L, x); S.leads.set(L.id, L); schedule();
+  await persist('lead', L);
+}
+const unsentOf = l => (l.log || []).filter(e => e.t !== 'created' && e.src !== 'admin' && !e.sent);
+function pendingCount() { let n = 0; for (const l of S.leads.values()) { n += unsentOf(l).length; if (!l.sentAt && !l.adminId) n++; } return n; }
+function entryText(x) {
+  let t = LOGT[x.t] || x.t;
+  if (x.t === 'followup' && x.ch) t += ' · ' + (CHANNELS[x.ch] || x.ch);
+  if (x.outcome) t += ' · ' + x.outcome;
+  if (x.t === 'lost' && x.reason) t += ' · ' + x.reason;
+  if (x.t === 'booked') t += [x.plotNo && ' · Plot ' + x.plotNo, x.dealValue && ' · ' + money(x.dealValue)].filter(Boolean).join('');
+  if (x.t === 'assigned' && x.src === 'admin') t = 'Assigned by admin';
+  return t;
+}
+
+/* ================= Export to admin / import from admin ================= */
+function buildExport(all) {
+  const now = Date.now(); const cutoff = now - 7 * DAY; const leads = []; let entries = 0, newLeads = 0; const counts = {};
+  for (const l of S.leads.values()) {
+    const es = (l.log || []).filter(e => e.t !== 'created' && e.src !== 'admin' && (all ? e.at >= cutoff : !e.sent));
+    const isNew = !l.sentAt && !l.adminId;
+    if (!es.length && !(isNew || (all && !l.adminId && l.createdAt >= cutoff))) continue;
+    leads.push({ id: l.id, adminId: l.adminId || null, name: l.name, phone: l.phone, project: l.project || '', source: l.source || '', budget: l.budget || '', notes: l.notes || '', createdAt: l.createdAt, entries: es.map(e => { const o = Object.assign({}, e); delete o.sent; delete o.undo; return o; }) });
+    entries += es.length; if (isNew) newLeads++;
+    es.forEach(e => { counts[e.t] = (counts[e.t] || 0) + 1; });
+  }
+  if (newLeads) counts.lead = newLeads;
+  const exportId = 'ex_' + uidGen(); const d = new Date(now);
+  const file = { type: FILE_STAFF, version: 1, exportId, exportedAt: now, staff: { key: S.profile.key, id: S.mode === 'cloud' ? S.me : null, name: S.profile.name, phone: S.profile.phone || '' }, note: '', leads };
+  return { file, entries, newLeads, counts, total: entries + newLeads, filename: `veershree-${slug(S.profile.name)}-${dayKey(now)}-${pad(d.getHours())}${pad(d.getMinutes())}.json` };
+}
+const CT = [['lead', 'new lead', 'new leads'], ['followup', 'follow-up', 'follow-ups'], ['visit_scheduled', 'visit scheduled', 'visits scheduled'], ['visit_done', 'site visit', 'site visits'], ['advance', 'deal step', 'deal steps'], ['booked', 'booking', 'bookings'], ['lost', 'lost lead', 'lost leads'], ['edited', 'edit', 'edits'], ['reopened', 'reopened', 'reopened']];
+function countText(c) { return CT.filter(([k]) => c[k]).map(([k, a, b]) => `${c[k]} ${c[k] === 1 ? a : b}`).join(', ') || 'no updates'; }
+async function markSent(ex, method) {
+  const now = Date.now(); const id = ex.file.exportId; const touched = [];
+  ex.file.leads.forEach(fl => {
+    const src = getLead(fl.id); if (!src) return; const L = clone(src); const ids = new Set(fl.entries.map(e => e.id));
+    L.log = (L.log || []).map(e => ids.has(e.id) ? Object.assign({}, e, { sent: id }) : e); L.sentAt = L.sentAt || now;
+    S.leads.set(L.id, L); touched.push(L);
+  });
+  S.meta = Object.assign({}, S.meta, { exports: (S.meta.exports || []).concat([{ id, at: now, count: ex.total, counts: ex.counts, method, note: ex.file.note || '' }]).slice(-60) });
+  schedule();
+  for (const L of touched) await persist('lead', L);
+  await persist('meta', S.meta);
+}
+function openSend(all) {
+  if (!S.profile) return;
+  const ex = buildExport(all);
+  if (!ex.total) return toast(all ? 'Nothing recorded in the last 7 days.' : 'Nothing new to send. Everything is already with admin.');
+  const noteEl = $('#sh-note'); ex.file.note = noteEl ? noteEl.value.trim() : '';
+  S.pendingExport = ex;
+  openModal('Send to Admin', `<div class="callout accent"><b>${ex.total} ${ex.total === 1 ? 'update' : 'updates'}</b> · ${esc(countText(ex.counts))}</div>
+    <ol class="steps"><li>Tap <b>Share file</b>. On a phone this opens the share sheet, so you can send it straight to admin on WhatsApp.</li><li>If that doesn't work, tap <b>Copy as text</b> and paste it in your WhatsApp chat with admin.</li></ol>
+    <div class="grid g-2"><button class="btn primary bigshare" type="button" data-act="send-file">${icon('download')}Share file</button><button class="btn bigshare" type="button" data-act="send-copy">${icon('copy')}Copy as text</button></div>
+    <div class="note">File: ${esc(ex.filename)}</div>`, { noSubmit: true });
+}
+async function deliver(method) {
+  const ex = S.pendingExport; if (!ex) return;
+  const json = JSON.stringify(ex.file);
+  window.__lastExport = ex.file;
+  if (method === 'copy') {
+    try { await navigator.clipboard.writeText(json); } catch (e) { toast('Couldn\'t copy here. Try Save file.', true); return; }
+  } else if (!IN_CLAUDE) {
+    const r = await shareOrDownload(ex.filename, json); if (r === 'cancelled') return;
+  } else {
+    let dl = null;
+    if (S.mode !== 'demo' && window.claude && window.claude.use) { try { dl = await window.claude.use('downloads'); } catch (e) { dl = null; } }
+    if (!dl) { toast('Saving files isn\'t available in this view. Use Copy as text.', true); return; }
+    try { await dl.save({ filename: ex.filename, data: json }); }
+    catch (e) { if (e && e.code === 'declined') return; toast('Couldn\'t save the file. Try Copy as text.', true); return; }
+  }
+  S.pendingExport = null; delete S.dirty['sh-note'];
+  await markSent(ex, method); closeModal();
+  toast(method === 'copy' ? 'Copied. Paste it in your WhatsApp chat with admin.' : 'File ready. Send it to admin on WhatsApp.');
+}
+function parseFileText(txt) {
+  txt = String(txt || '').trim(); if (!txt) throw new Error('The file is empty.');
+  const a = txt.indexOf('{'), b = txt.lastIndexOf('}'); if (a < 0 || b < a) throw new Error('This isn\'t a Veershree data file.');
+  let d; try { d = JSON.parse(txt.slice(a, b + 1)); } catch (e) { throw new Error('The file looks damaged. Ask for it to be sent again.'); }
+  return d;
+}
+function importAdminLeads(d) {
+  if (!d || d.type !== FILE_ADMIN || !Array.isArray(d.leads)) throw new Error(d && d.type === FILE_STAFF ? 'This is a staff file. Import it in the Admin app, not here.' : 'This isn\'t a leads file from admin.');
+  let added = 0, updated = 0; const changed = [];
+  d.leads.forEach(al => {
+    if (!al || !al.adminId || !al.name) return;
+    const pk = phoneKey(al.phone);
+    const cur = leadsArr().find(l => l.adminId === al.adminId) || (pk.length === 10 ? leadsArr().find(l => phoneKey(l.phone) === pk) : null);
+    if (cur) {
+      const L = clone(cur); L.adminId = al.adminId; ['name', 'phone', 'project', 'source', 'budget', 'notes'].forEach(k => { if (al[k]) L[k] = al[k]; });
+      if (!unsentOf(L).length && al.status) { L.status = al.status; L.closed = al.status === 'booked' || al.status === 'lost'; if ('nextFollowupAt' in al) L.nextFollowupAt = al.nextFollowupAt || null; if ('visitAt' in al) L.visitAt = al.visitAt || null; }
+      S.leads.set(L.id, L); changed.push(L); updated++;
+    } else {
+      const at = al.assignedAt || Date.now();
+      const L = { id: 'sl_' + uidGen(), adminId: al.adminId, name: al.name, phone: al.phone || '', project: al.project || '', source: al.source || '', budget: al.budget || '', notes: al.notes || '', createdAt: at, assignedAt: at, status: al.status || 'new', closed: al.status === 'booked' || al.status === 'lost', nextFollowupAt: al.nextFollowupAt || null, visitAt: al.visitAt || null, firstFollowupAt: al.firstFollowupAt || null, lastTouchAt: al.lastTouchAt || null, lastActivityAt: at, sentAt: Date.now(), log: [{ id: 'a' + uidGen(), t: 'assigned', at, src: 'admin', note: al.adminNote || '' }] };
+      S.leads.set(L.id, L); changed.push(L); added++;
+    }
+  });
+  S.meta = Object.assign({}, S.meta, { adminImports: (S.meta.adminImports || []).concat([{ at: Date.now(), added, updated, exportedAt: d.exportedAt || null }]).slice(-30) });
+  return { added, updated, changed };
+}
+function exportBackup() {
+  const file = { type: FILE_BACKUP, version: 1, at: Date.now(), profile: S.profile, meta: S.meta, leads: leadsArr() };
+  S.pendingExport = { file, filename: `veershree-staff-backup-${slug(meName())}-${dayKey(Date.now())}.json`, total: 0, backup: true };
+  return S.pendingExport;
+}
+
+/* ================= Rendering ================= */
+let _raf = 0;
+function schedule() { if (_raf) return; _raf = requestAnimationFrame(() => { _raf = 0; render(); }); }
+function restoreDirty() { for (const id in S.dirty) { const el = document.getElementById(id); if (el) el.value = S.dirty[id]; } }
+function centerCard(title, body) {
+  return `<div class="center-screen"><div class="card center-card"><div class="brandrow"><div class="logo staff">VS</div><div><b style="font-size:16px">Veershree Staff</b><div class="small muted">Record your work and send it to admin</div></div></div><h1 style="font-size:20px">${esc(title)}</h1>${body}</div></div>`;
+}
+function render() {
+  const app = $('#app'); const f = captureFocus();
+  if (S.mode === 'loading') return;
+  if (S.mode === 'cloud' && !S.loaded) { app.innerHTML = centerCard('Loading your data…', S.stale ? '<div class="callout warn">Your data can\'t be reached yet. Check your internet connection.</div>' : '<div class="skel"></div><div class="skel" style="width:70%"></div>'); return; }
+  if (!S.profile) { app.innerHTML = vSetup(); restoreDirty(); restoreFocus(f); return; }
+  app.innerHTML = shell();
+  restoreDirty(); renderDrawer(); restoreFocus(f);
+}
+function bannerHtml() {
+  if (S.mode === 'demo') return `<div class="banner"><span><b>Sample data.</b> ${esc(S.demoReason)} Changes here aren't saved.</span></div>`;
+  if (S.mode === 'device' && leadsArr().length && Date.now() - Number(lsGet('vss-last-backup') || 0) > 7 * DAY) return `<div class="banner"><span><b>Your work is saved on this phone only.</b> Send to admin every day and download a backup each week.</span><button class="btn sm" type="button" data-act="backup">${icon('download')}Backup</button></div>`;
+  if (S.stale) return '<div class="banner"><span>Can\'t reach your saved data right now. New entries will sync when you\'re back online.</span></div>';
+  return '';
+}
+const TABS = [['home', 'Home', 'myday'], ['leads', 'My leads', 'leads'], ['send', 'Send', 'inbox'], ['profile', 'Profile', 'team']];
+function shell() {
+  const n = pendingCount(); const dark = isDark(); const v = S.view;
+  const last = (S.meta.exports || []).slice(-1)[0];
+  const body = v === 'leads' ? vLeads() : v === 'send' ? vSend() : v === 'profile' ? vProfile() : vHome();
+  const homeN = leadsArr().filter(l => !l.closed).map(l => leadAlert(l)).filter(a => a && (a.lvl === 'bad' || a.lvl === 'warn')).length;
+  const bar = v === 'send' ? '' : n
+    ? `<div class="s-share"><div class="box"><span class="ic">${icon('inbox')}</span><span class="t"><b>${n} ${n === 1 ? 'update' : 'updates'} not sent</b><span>Admin can't see ${n === 1 ? 'it' : 'them'} yet</span></span><button class="btn primary" type="button" data-act="send-open">${icon('check')}Send to Admin</button></div></div>`
+    : `<div class="s-share"><div class="box ok"><span class="ic ok">${icon('check')}</span><span class="t"><b>Everything is sent</b><span>${last ? 'Last sent ' + esc(fmtDT(last.at)) : 'Nothing to send yet'}</span></span></div></div>`;
+  return `<div class="sapp"><div class="s-wrap">
+    <header class="s-top"><div class="logo staff">VS</div><div style="min-width:0;flex:1"><div class="s-brand">Veershree Staff</div><div class="small muted" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(meName())}${S.profile.phone ? ' · ' + esc(S.profile.phone) : ''}</div></div>
+      <button class="ibtn" type="button" data-act="theme" aria-label="${dark ? 'Light mode' : 'Dark mode'}">${icon(dark ? 'sun' : 'moon')}</button>
+      <button class="btn primary sm" type="button" data-act="add-lead">${icon('plus')}Lead</button></header>
+    <main class="s-main">${bannerHtml()}${body}</main>
+    ${bar}
+    <nav class="snav" aria-label="Staff app">${TABS.map(([k, label, ic]) => `<button type="button" data-act="tab" data-v="${k}" ${v === k ? 'aria-current="page"' : ''}>${icon(ic)}<span>${label}</span>${k === 'send' && n ? `<span class="badge">${n}</span>` : k === 'home' && homeN ? `<span class="badge">${homeN}</span>` : ''}</button>`).join('')}</nav>
+  </div></div>`;
+}
+function vSetup() {
+  return centerCard('Set up your Staff app', `<p class="muted" style="margin:0">Your name goes on every file you send, so admin knows the work is yours.</p>
+    <form id="setup-form" class="stack" style="gap:12px"><label class="field"><span class="lbl">Your full name *</span><input id="su-name" name="name" maxlength="60" value="${esc(S.myName || '')}" placeholder="e.g. Priya Deshmukh"></label>
+    <label class="field"><span class="lbl">Your mobile number</span><input id="su-phone" name="phone" inputmode="tel" maxlength="20" placeholder="10-digit mobile"></label>
+    <button class="btn primary bigshare" type="submit">Start</button></form>
+    <div class="note">${S.mode === 'cloud' ? 'Your data is saved to your Claude account, so it stays safe if you change phones.' : S.mode === 'device' ? 'Your data is saved on this phone. Send it to admin every day.' : ''}</div>`);
+}
+function vHome() {
+  const now = Date.now(); const ts = startOfDay(now);
+  const open = leadsArr().filter(l => !l.closed);
+  let calls = 0, visits = 0, newL = 0;
+  leadsArr().forEach(l => (l.log || []).forEach(e => { if (e.at < ts || e.src === 'admin') return; if (e.t === 'followup') calls++; else if (e.t === 'visit_done') visits++; else if (e.t === 'created') newL++; }));
+  const all = open.map(l => ({ l, a: leadAlert(l, now) }));
+  const action = all.filter(x => x.a && x.a.lvl !== 'ok').sort((x, y) => (LVL_RANK[x.a.lvl] - LVL_RANK[y.a.lvl]) || (y.a.age - x.a.age));
+  const upcoming = all.filter(x => x.a && x.a.lvl === 'ok').sort((x, y) => (x.a.at || 0) - (y.a.at || 0)).slice(0, 8);
+  const onTrack = all.length ? Math.round(all.filter(x => !x.a || x.a.lvl === 'ok' || x.a.lvl === 'info').length / all.length * 100) : 100;
+  const h = new Date().getHours(); const greet = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+  const prio = { bad: 'var(--bad)', warn: 'var(--warn)', info: 'var(--info)' };
+  const n = pendingCount();
+  const row = ({ l, a }) => { const vis = l.status === 'visit_scheduled' && !!l.firstFollowupAt; return `<div class="li act" style="grid-template-columns:4px minmax(0,1.4fr) minmax(0,1fr) auto"><span class="prio" style="background:${prio[a.lvl] || 'var(--line)'}"></span><div><button class="ln" type="button" data-act="open-lead" data-id="${l.id}">${esc(l.name)}</button><div class="sub">${esc(l.project || '')} ${tempBadge(tempOf(l, now))}${unsentOf(l).length || (!l.sentAt && !l.adminId) ? ' <span class="pill warn">Not sent</span>' : ''}</div></div><div class="row">${alertChip(a)}</div><div class="row"><button class="btn sm primary" type="button" data-act="lead-act" data-kind="${vis ? 'visit_done' : 'followup'}" data-id="${l.id}">${icon(vis ? 'pin' : 'phone')}${vis ? 'Record visit' : 'Log call'}</button></div></div>`; };
+  return `<div class="hero"><div class="hero-top"><div><h2>${greet}, ${esc(meName().split(' ')[0])}</h2><div class="s">${action.length ? `${action.length} ${action.length > 1 ? 'leads need' : 'lead needs'} you today.` : 'You\'re all caught up.'} Record each call and visit, then send it to admin.</div></div>${ring(onTrack, 88, 9, onTrack >= 80 ? '#4CCB86' : onTrack >= 50 ? '#EAB04A' : '#F27272', `<b>${onTrack}%</b><span>on track</span>`)}</div>
+      <div class="hstats"><div class="hs"><b>${open.length}</b><span>Open leads</span></div><div class="hs"><b>${calls}</b><span>Calls today</span></div><div class="hs"><b>${visits}</b><span>Visits today</span></div><div class="hs"><b>${newL}</b><span>New leads today</span></div><div class="hs"><b>${n}</b><span>Not sent</span></div></div></div>
+    <div class="grid g-2"><button class="btn primary bigshare" type="button" data-act="add-lead">${icon('userplus')}Add new lead</button><button class="btn bigshare" type="button" data-act="tab" data-v="send">${icon('inbox')}Send · ${n}</button></div>
+    <div class="card">${sectionHead('alert', 'bad', 'Needs your action', 'Most urgent first', `<span class="badge ${action.length ? '' : 'soft'}">${action.length}</span>`)}<div class="card-b flush">${action.length ? `<div class="list">${action.map(row).join('')}</div>` : emptyState('check', open.length ? 'You\'re all caught up.' : 'No leads yet. Add your first lead, or import leads from admin in My leads.')}</div></div>
+    <div class="card">${sectionHead('calendar', 'info', 'Coming up', 'Planned follow-ups and visits')}<div class="card-b flush">${upcoming.length ? `<div class="list">${upcoming.map(({ l, a }) => `<div class="li li2" style="grid-template-columns:minmax(0,1fr) auto"><div><button class="ln" type="button" data-act="open-lead" data-id="${l.id}">${esc(l.name)}</button><div class="sub">${esc(a.txt)}</div></div>${statusPill(l.status)}</div>`).join('')}</div>` : emptyState('calendar', 'No follow-ups planned yet.')}</div></div>
+    <div class="note row">${icon('shield', 'sm')}Admin sees your work only after you send it. Every entry keeps the time you recorded it.</div>`;
+}
+function vLeads() {
+  const now = Date.now(); const f = S.lf; const q = f.q.trim().toLowerCase(); const qd = digits(q);
+  let list = leadsArr();
+  if (q) list = list.filter(l => (l.name || '').toLowerCase().includes(q) || (qd.length >= 3 && digits(l.phone).includes(qd)));
+  if (f.f === 'open') list = list.filter(l => !l.closed);
+  else if (f.f === 'action') list = list.filter(l => { const a = leadAlert(l, now); return a && (a.lvl === 'bad' || a.lvl === 'warn'); });
+  else if (f.f === 'hot') list = list.filter(l => tempOf(l, now) === 'hot');
+  else if (f.f === 'unsent') list = list.filter(l => unsentOf(l).length || (!l.sentAt && !l.adminId));
+  else if (f.f === 'closed') list = list.filter(l => l.closed);
+  const withA = list.map(l => ({ l, a: leadAlert(l, now) })).sort((x, y) => ((x.a ? LVL_RANK[x.a.lvl] : 9) - (y.a ? LVL_RANK[y.a.lvl] : 9)) || (y.l.lastActivityAt || 0) - (x.l.lastActivityAt || 0));
+  return `<div class="grid g-2"><button class="btn primary bigshare" type="button" data-act="add-lead">${icon('userplus')}Add new lead</button><button class="btn bigshare" type="button" data-act="import-admin">${icon('download')}Import leads from admin</button></div>
+    <div class="card"><div class="filters" style="flex-direction:column;align-items:stretch"><input type="search" id="s-q" class="inp" placeholder="Search name or phone" value="${esc(f.q)}" data-inp="sq" aria-label="Search leads">
+      <span class="seg">${[['open', 'Open'], ['action', 'Needs action'], ['hot', 'Hot'], ['unsent', 'Not sent'], ['closed', 'Booked / lost'], ['all', 'All']].map(([k, v]) => `<button type="button" data-act="lf" data-v="${k}" aria-pressed="${f.f === k}">${v}</button>`).join('')}</span></div>
+    ${withA.length ? `<div class="list">${withA.slice(0, 200).map(({ l, a }) => `<button type="button" class="lc" data-act="open-lead" data-id="${l.id}">${clientAv(l.name)}<span style="min-width:0"><span class="nm">${esc(l.name)}</span><span class="sub" style="display:block">${esc(l.phone || '')} · ${esc(l.project || '')}</span></span>${statusPill(l.status)}<span class="meta">${a && a.lvl !== 'ok' ? alertChip(a) : a ? `<span class="small muted">${esc(a.txt)}</span>` : l.status === 'booked' ? `<span class="small muted">Booked ${esc(fmtDate(l.bookedAt))}${l.dealValue ? ' · ' + money(l.dealValue) : ''}</span>` : ''}${tempBadge(tempOf(l, now))}${l.adminId ? '<span class="pill info">From admin</span>' : ''}${unsentOf(l).length || (!l.sentAt && !l.adminId) ? '<span class="pill warn">Not sent</span>' : ''}</span></button>`).join('')}</div>` : emptyState('search', q ? 'No lead matches your search.' : 'No leads here.')}</div>`;
+}
+function vSend() {
+  const n = pendingCount(); const exps = (S.meta.exports || []).slice().reverse();
+  const items = []; leadsArr().forEach(l => { if (!l.sentAt && !l.adminId) items.push({ l, e: { t: 'created', at: l.createdAt, id: 'new_' + l.id }, isNew: true }); unsentOf(l).forEach(e => items.push({ l, e })); });
+  items.sort((a, b) => b.e.at - a.e.at);
+  const tone = { created: ['userplus', 'info'], followup: ['phone', 'accent'], visit_scheduled: ['calendar', 'info'], visit_done: ['pin', 'info'], advance: ['trend', 'gold'], booked: ['key', 'good'], lost: ['xcircle', 'bad'], edited: ['edit', 'info'], reopened: ['refresh', 'info'] };
+  const lastIdx = {}; leadsArr().forEach(l => { const lg = l.log || []; if (lg.length) lastIdx[l.id] = lg[lg.length - 1].id; });
+  return `<div class="card"><div class="card-b" style="padding-top:18px"><div class="row" style="gap:14px;flex-wrap:nowrap">${ring(n ? 100 : 0, 74, 8, n ? 'var(--warn)' : 'var(--good)', `<b>${n}</b><span>to send</span>`)}<div><b style="font-size:16px">${n ? `${n} ${n === 1 ? 'update is' : 'updates are'} waiting` : 'Nothing waiting'}</b><div class="small muted">${n ? 'Send them to admin before you leave for the day.' : exps.length ? 'Everything was sent ' + esc(fmtDT(exps[0].at)) : 'Updates you record appear here until you send them.'}</div></div></div>
+      ${n ? `<label class="field" style="margin-top:16px"><span class="lbl">Note for admin (optional)</span><textarea id="sh-note" class="keep" rows="2" maxlength="200" placeholder="e.g. Two families coming for a site visit tomorrow"></textarea></label>
+      <button class="btn primary bigshare" type="button" data-act="send-open" style="margin-top:12px">${icon('check')}Send ${n} ${n === 1 ? 'update' : 'updates'} to Admin</button>` : ''}
+      <button class="btn ghost" type="button" data-act="send-again" style="margin-top:8px;width:100%">${icon('refresh')}Send again: everything from the last 7 days</button>
+    </div></div>
+    ${items.length ? `<div class="card">${sectionHead('inbox', 'warn', 'Not sent yet', 'Only you can see these')}<div class="card-b flush"><div class="list">${items.map(({ l, e, isNew }) => { const [ic, tn] = tone[e.t] || ['note', 'info']; const detail = isNew ? [l.phone, l.project].filter(Boolean).join(' · ') : [e.ch && CHANNELS[e.ch], e.outcome, e.reason, e.when && 'for ' + fmtDT(e.when), e.note].filter(Boolean).join(' · '); const canUndo = !isNew && lastIdx[l.id] === e.id; return `<div class="ob"><span class="ic tone-${tn}">${icon(ic, 'sm')}</span><div style="min-width:0"><b>${esc(isNew ? 'New lead' : (LOGT[e.t] || e.t))}</b> · <button class="linkish" type="button" data-act="open-lead" data-id="${l.id}">${esc(l.name)}</button><div class="sub">${esc(fmtDT(e.at))}${detail ? ' · ' + esc(detail) : ''}</div></div>${canUndo ? `<button class="ibtn" type="button" data-act="undo" data-id="${l.id}" aria-label="Undo this entry">${icon('x')}</button>` : isNew && (l.log || []).length <= 1 ? `<button class="ibtn" type="button" data-act="del-lead" data-id="${l.id}" aria-label="Delete this new lead">${icon('x')}</button>` : '<span></span>'}</div>`; }).join('')}</div></div></div>` : ''}
+    <div class="card">${sectionHead('check', 'good', 'Sent to admin', exps.length ? `${exps.length} ${exps.length === 1 ? 'time' : 'times'}` : 'Nothing sent yet')}<div class="card-b flush">${exps.length ? `<div class="list">${exps.slice(0, 15).map(x => `<div class="ob"><span class="ic tone-good">${icon(x.method === 'copy' ? 'copy' : 'download', 'sm')}</span><div><b>${x.count} ${x.count === 1 ? 'update' : 'updates'}</b><div class="sub">${esc(countText(x.counts || {}))}${x.note ? ' · “' + esc(x.note) + '”' : ''}</div></div><span class="small muted">${esc(fmtDT(x.at))}</span></div>`).join('')}</div>` : emptyState('inbox', 'Send at least once a day, before you leave.')}</div></div>`;
+}
+function vProfile() {
+  const p = S.profile; const dark = isDark();
+  const mode = S.mode === 'cloud' ? ['Saved to your Claude account', 'Your data stays safe if you change or lose your phone.', 'good'] : S.mode === 'device' ? ['Saved on this phone only', 'Clearing the browser or changing phones can erase it. Keep a backup.', 'warn'] : ['Sample data', 'Nothing here is saved.', 'info'];
+  const ai = (S.meta.adminImports || []).slice(-1)[0];
+  return `<div class="card">${sectionHead('team', 'accent', 'Your details', 'Shown to admin on every file you send')}<div class="card-b"><form id="profile-form" class="stack" style="gap:12px"><div class="fgrid"><label class="field"><span class="lbl">Full name *</span><input id="pf-name" name="name" maxlength="60" value="${esc(p.name)}"></label><label class="field"><span class="lbl">Mobile number</span><input id="pf-phone" name="phone" inputmode="tel" maxlength="20" value="${esc(p.phone || '')}"></label></div><div><button class="btn primary" type="submit">${icon('check')}Save details</button></div></form></div></div>
+    <div class="card">${sectionHead('shield', mode[2], 'Where your data is kept', mode[0])}<div class="card-b stack" style="gap:12px"><div class="callout ${mode[2] === 'warn' ? 'warn' : ''}">${esc(mode[1])}</div>
+      <div class="grid g-2"><button class="btn" type="button" data-act="backup">${icon('download')}Download backup</button><button class="btn" type="button" data-act="restore">${icon('refresh')}Restore backup</button></div>
+      <div class="note">${leadsArr().length} leads · ${(S.meta.exports || []).length} files sent${ai ? ` · last leads from admin ${esc(fmtDT(ai.at))}` : ''}</div></div></div>
+    <div class="card">${sectionHead('note', 'info', 'How it works', '')}<div class="card-b"><ol class="steps"><li>Add your leads, or import the leads admin sends you.</li><li>Record every call, site visit, deal step and booking as it happens.</li><li>Before you leave, open <b>Send</b> and tap <b>Send to Admin</b>. Send the file to admin on WhatsApp.</li><li>Admin imports the file, and your work shows up in the admin app.</li></ol></div></div>
+    <button class="btn" type="button" data-act="theme">${icon(dark ? 'sun' : 'moon')}${dark ? 'Light mode' : 'Dark mode'}</button>`;
+}
+
+/* ================= Lead drawer ================= */
+function renderDrawer() {
+  const root = $('#drawer-root');
+  if (!S.drawer) { root.innerHTML = ''; return; }
+  const l = getLead(S.drawer); if (!l) { root.innerHTML = ''; S.drawer = null; return; }
+  const prev = root.querySelector('.drawer'); const scroll = prev ? prev.scrollTop : 0;
+  const a = leadAlert(l); const t = tempOf(l); const tel = digits(l.phone); const wa = tel.length === 10 ? '91' + tel : tel;
+  const un = unsentOf(l).length + (!l.sentAt && !l.adminId ? 1 : 0);
+  const AIC = { followup: 'phone', visit_schedule: 'calendar', visit_done: 'pin', advance: 'trend', booked: 'key', lost: 'xcircle' };
+  const main = l.closed ? [] : [['followup', 'Log call', 'primary'], ['visit_schedule', 'Schedule visit'], ['visit_done', 'Visit done'], ['advance', 'Deal moved'], ['booked', 'Mark booked', 'good'], ['lost', 'Mark lost', 'danger']];
+  const log = (l.log || []).slice().reverse();
+  root.innerHTML = `<div class="drawer-back" data-act="drawer-back"><aside class="drawer" role="dialog" aria-modal="true" aria-labelledby="dr-title">
+    <div class="dh">
+      <div class="spread" style="align-items:flex-start;flex-wrap:nowrap"><div class="row" style="flex-wrap:nowrap;gap:12px;min-width:0">${clientAv(l.name, 'xl')}<div style="min-width:0"><h2 id="dr-title" style="font-size:19px;font-weight:800">${esc(l.name)}</h2><div class="row" style="margin-top:5px">${statusPill(l.status)}${tempBadge(t)}${alertChip(a && a.lvl !== 'ok' ? a : null)}</div></div></div><button class="ibtn" type="button" data-act="drawer-close" aria-label="Close">${icon('x')}</button></div>
+      ${tel ? `<div class="row"><a class="btn sm" href="tel:+${esc(wa)}">${icon('phone')}Call</a><a class="btn sm" href="https://wa.me/${esc(wa)}" target="_blank" rel="noopener">${icon('chat')}WhatsApp</a><button class="btn sm" type="button" data-act="copy" data-msg="Number copied" data-v="${esc(l.phone)}">${icon('copy')}${esc(l.phone)}</button></div>` : ''}
+      ${stageStepper(l)}
+    </div>
+    <div class="db">
+      ${un ? `<div class="callout warn spread"><span>${un} ${un === 1 ? 'update' : 'updates'} on this lead ${un === 1 ? 'is' : 'are'} not sent to admin yet.</span><button class="btn sm primary" type="button" data-act="send-open">Send to Admin</button></div>` : ''}
+      ${main.length ? `<div class="qa">${main.map(([k, label, cls]) => `<button class="btn ${cls || ''}" type="button" data-act="lead-act" data-kind="${k}" data-id="${l.id}">${icon(AIC[k])}${esc(label)}</button>`).join('')}</div>` : ''}
+      <div class="qa2"><button class="btn sm" type="button" data-act="lead-act" data-kind="edit" data-id="${l.id}">${icon('edit')}Edit details</button>${l.closed ? `<button class="btn sm danger" type="button" data-act="lead-act" data-kind="reopen" data-id="${l.id}">${icon('refresh')}Reopen lead</button>` : ''}${!l.sentAt && !l.adminId && (l.log || []).length <= 1 ? `<button class="btn sm danger" type="button" data-act="del-lead" data-id="${l.id}">${icon('x')}Delete lead</button>` : ''}</div>
+      ${l.status === 'booked' ? `<div class="callout accent">Booked ${esc(fmtDate(l.bookedAt))}${l.plotNo ? ' · Plot ' + esc(l.plotNo) : ''}${l.dealValue ? ' · ' + money(l.dealValue) : ''}</div>` : ''}
+      ${l.status === 'lost' ? `<div class="callout bad">Lost · <b>${esc(l.lostReason || 'Other')}</b> · ${esc(fmtDT(l.lostAt))}</div>` : ''}
+      <div class="card"><div class="card-b" style="padding-top:16px"><div class="kv">
+        <div><div class="k">Project</div><div class="v">${esc(l.project || '—')}</div></div>
+        <div><div class="k">Source</div><div class="v">${esc(l.source || '—')}</div></div>
+        <div><div class="k">Budget</div><div class="v">${esc(l.budget || '—')}</div></div>
+        <div><div class="k">${l.adminId ? 'Assigned by admin' : 'Added'}</div><div class="v">${esc(fmtDT(l.assignedAt || l.createdAt))}</div></div>
+        <div><div class="k">${l.status === 'visit_scheduled' ? 'Site visit' : 'Next follow-up'}</div><div class="v">${esc(fmtDT(l.status === 'visit_scheduled' ? l.visitAt : l.nextFollowupAt))}</div></div>
+        <div><div class="k">First follow-up</div><div class="v">${l.firstFollowupAt ? esc(fmtDT(l.firstFollowupAt)) : '<span style="color:var(--bad)">Not yet</span>'}</div></div>
+        ${l.notes ? `<div style="grid-column:1/-1"><div class="k">Notes</div><div class="v" style="white-space:pre-wrap;font-weight:500">${esc(l.notes)}</div></div>` : ''}
+      </div></div></div>
+      <div class="card">${sectionHead('audit', 'accent', 'History', `${log.length} entries`)}<div class="card-b"><div class="tl">${log.map(e => { const [ic, tone] = LOG_ICON[e.t] || ['note', 'muted']; const ns = e.t !== 'created' && e.src !== 'admin' && !e.sent; return `<div class="it"><span class="dot ${tone}">${icon(e.t === 'followup' && e.ch === 'whatsapp' ? 'chat' : ic)}</span><div><div class="h">${esc(entryText(e))}${ns ? ' <span class="pill warn">Not sent</span>' : e.sent ? ' <span class="pill good">Sent</span>' : ''}</div><div class="m">${esc(e.src === 'admin' ? 'Admin' : meName())} · ${esc(fmtDT(e.at))}${e.when ? ' · for ' + esc(fmtDT(e.when)) : ''}${e.next ? ' · next ' + esc(fmtDT(e.next)) : ''}</div>${e.note ? `<div class="x">${esc(e.note)}</div>` : ''}</div></div>`; }).join('')}</div></div></div>
+    </div></aside></div>`;
+  const dr = root.querySelector('.drawer'); if (dr && scroll) dr.scrollTop = scroll;
+}
+
+/* ================= Modals & actions ================= */
+function leadForm(l) {
+  const c = cfg(); l = l || {};
+  return `<div class="fgrid">
+    <label class="field"><span class="lbl">Client name *</span><input id="lf-name" name="name" maxlength="80" value="${esc(l.name || '')}"></label>
+    <label class="field"><span class="lbl">Phone *</span><input id="lf-phone" name="phone" inputmode="tel" maxlength="20" value="${esc(l.phone || '')}" placeholder="10-digit mobile"></label>
+    <label class="field"><span class="lbl">Project</span><input id="lf-proj" name="project" list="dl-proj" maxlength="60" value="${esc(l.project || c.projects[0])}"><datalist id="dl-proj">${c.projects.map(p => `<option value="${esc(p)}"></option>`).join('')}</datalist></label>
+    <label class="field"><span class="lbl">Source</span><select id="lf-src" name="source">${c.sources.map(p => opt(p, p, p === l.source)).join('')}${l.source && !c.sources.includes(l.source) ? opt(l.source, l.source, true) : ''}</select></label>
+    <label class="field"><span class="lbl">Budget</span><input id="lf-bud" name="budget" maxlength="40" value="${esc(l.budget || '')}" placeholder="e.g. 25–30 lakh"></label>
+    <label class="field full"><span class="lbl">Notes</span><textarea id="lf-notes" name="notes" rows="2" maxlength="600">${esc(l.notes || '')}</textarea></label>
+  </div><div id="dup-warn"></div>`;
+}
+function dupPreview(form, selfId) {
+  const ph = phoneKey(fv(form, 'phone')); const box = $('#dup-warn'); if (!box) return;
+  const dup = ph.length === 10 ? leadsArr().find(x => x.id !== selfId && phoneKey(x.phone) === ph) : null;
+  box.innerHTML = dup ? `<div class="callout warn">You already have this number: <b>${esc(dup.name)}</b> (${esc((STATUS[dup.status] || [''])[0])}). <button class="linkish" type="button" data-act="open-lead-close" data-id="${dup.id}">Open that lead</button></div>` : '';
+}
+function openAddLead() {
+  openModal('Add lead', leadForm(null), {
+    submit: 'Add lead', preview: f => dupPreview(f, null),
+    onSubmit: async fd => {
+      const name = (fd.get('name') || '').trim(), phone = (fd.get('phone') || '').trim();
+      if (!name) return 'Enter the client\'s name.'; if (phoneKey(phone).length < 10) return 'Enter a valid 10-digit phone number.';
+      const dup = leadsArr().find(x => phoneKey(x.phone) === phoneKey(phone));
+      if (dup && !S.modal.dupOk) { S.modal.dupOk = true; return `You already have ${dup.name} with this number. Press Add lead again to add it anyway.`; }
+      const now = Date.now();
+      const L = { id: 'sl_' + uidGen(), adminId: null, name, phone, project: (fd.get('project') || '').trim(), source: fd.get('source') || '', budget: (fd.get('budget') || '').trim(), notes: (fd.get('notes') || '').trim(), createdAt: now, assignedAt: now, status: 'new', closed: false, nextFollowupAt: null, visitAt: null, firstFollowupAt: null, lastTouchAt: null, lastActivityAt: now, sentAt: null, log: [{ id: 'c' + uidGen(), t: 'created', at: now }] };
+      S.leads.set(L.id, L); schedule(); await persist('lead', L);
+      toast('Lead added. Send to Admin when you\'re ready.');
+    },
+  });
+}
+function leadAct(kind, id) {
+  const l = getLead(id); if (!l) return; const c = cfg();
+  const nextField = (lbl, def, name) => `<label class="field"><span class="lbl">${lbl}</span><input id="m-next" type="datetime-local" name="${name || 'next'}" value="${def ? toLocalInput(def) : ''}"></label>`;
+  const note = (ph, req) => `<label class="field"><span class="lbl">${req ? 'Note *' : 'Note'}</span><textarea id="m-note" name="note" rows="2" maxlength="400" placeholder="${esc(ph || '')}"></textarea></label>`;
+  if (kind === 'followup') {
+    openModal(`Log call · ${l.name}`, `<div class="field"><span class="lbl">How</span><span class="seg">${Object.entries(CHANNELS).map(([k, v], i) => `<label><input type="radio" name="ch" value="${k}" ${i === 0 ? 'checked' : ''}><span>${v}</span></label>`).join('')}</span></div>
+      <label class="field"><span class="lbl">Outcome</span><select id="m-out" name="outcome">${OUTCOMES.map(o => opt(o, o)).join('')}</select></label>${note('What did the client say?')}${nextField('Next follow-up', tomorrowAt(11))}
+      <label class="check"><input type="checkbox" name="nonext" id="m-nonext"> No further follow-up needed</label>`, {
+      submit: 'Save', onSubmit: async fd => {
+        const next = fd.get('nonext') ? null : fromLocalInput(fd.get('next'));
+        if (!fd.get('nonext') && !next) return 'Pick the next follow-up date, or tick "No further follow-up needed".';
+        await logEntry(id, { t: 'followup', ch: fd.get('ch'), outcome: fd.get('outcome'), note: (fd.get('note') || '').trim(), next }); toast('Call saved');
+      } });
+  } else if (kind === 'visit_schedule') {
+    openModal(`Schedule site visit · ${l.name}`, `${nextField('Visit date and time *', tomorrowAt(11), 'when')}${note('Pickup point, family members coming…')}`, {
+      submit: 'Schedule visit', onSubmit: async fd => { const when = fromLocalInput(fd.get('when')); if (!when) return 'Pick the visit date and time.'; await logEntry(id, { t: 'visit_scheduled', when, note: (fd.get('note') || '').trim() }); toast('Visit scheduled'); } });
+  } else if (kind === 'visit_done') {
+    openModal(`Site visit done · ${l.name}`, `<div class="callout accent">The person who does the site visit can earn the ${c.closerShare}% incentive share, so record it under your name.</div>
+      <label class="field"><span class="lbl">Client's reaction</span><select id="m-out" name="outcome">${['Liked the plot', 'Wants to compare', 'Liked, price concern', 'Needs family visit', 'Did not like'].map(o => opt(o, o)).join('')}</select></label>${note('')}${nextField('Next follow-up', tomorrowAt(11))}`, {
+      submit: 'Save visit', onSubmit: async fd => { const next = fromLocalInput(fd.get('next')); if (!next) return 'Pick the next follow-up date.'; await logEntry(id, { t: 'visit_done', outcome: fd.get('outcome'), note: (fd.get('note') || '').trim(), next }); toast('Site visit saved'); } });
+  } else if (kind === 'advance') {
+    openModal(`Deal moved forward · ${l.name}`, `<div class="callout accent">Use this when you move the deal ahead: negotiation, payment plan, token date, loan help. Only taking a call doesn't count.</div>${note('What moved forward?', true)}${nextField('Next follow-up', tomorrowAt(11))}`, {
+      submit: 'Save', onSubmit: async fd => { const n2 = (fd.get('note') || '').trim(); if (!n2) return 'Describe what moved forward.'; const next = fromLocalInput(fd.get('next')); if (!next) return 'Pick the next follow-up date.'; await logEntry(id, { t: 'advance', note: n2, next }); toast('Saved'); } });
+  } else if (kind === 'booked') {
+    openModal(`Mark booked · ${l.name}`, `<div class="fgrid"><label class="field"><span class="lbl">Booking date</span><input id="m-bd" type="date" name="bdate" value="${dayKey(Date.now())}" max="${dayKey(Date.now())}"></label><label class="field"><span class="lbl">Plot number</span><input id="m-plot" name="plot" maxlength="20"></label><label class="field"><span class="lbl">Deal value (₹)</span><input id="m-val" name="value" type="number" min="0" step="1000"></label></div>${note('Token amount, payment plan…')}<div class="note">Admin works out the incentive split after importing your file.</div>`, {
+      submit: 'Confirm booking', onSubmit: async fd => { const bd = fd.get('bdate'); let at = Date.now(); if (bd && bd !== dayKey(at)) at = keyToMs(bd) + 12 * HOUR; await logEntry(id, { t: 'booked', bookedAt: at, plotNo: (fd.get('plot') || '').trim(), dealValue: Number(fd.get('value')) || 0, note: (fd.get('note') || '').trim() }); toast('Booking saved'); } });
+  } else if (kind === 'lost') {
+    openModal(`Mark lost · ${l.name}`, `<label class="field"><span class="lbl">Main reason *</span><select id="m-reason" name="reason"><option value="">Choose…</option>${c.lostReasons.map(o => opt(o, o)).join('')}</select></label>${note('')}`, {
+      submit: 'Mark lost', danger: true, onSubmit: async fd => { const reason = fd.get('reason'); if (!reason) return 'Choose the main reason.'; await logEntry(id, { t: 'lost', reason, note: (fd.get('note') || '').trim() }); toast('Marked lost'); } });
+  } else if (kind === 'edit') {
+    openModal(`Edit · ${l.name}`, leadForm(l), {
+      submit: 'Save changes', preview: f => dupPreview(f, l.id), onSubmit: async fd => {
+        const nv = { name: (fd.get('name') || '').trim(), phone: (fd.get('phone') || '').trim(), project: (fd.get('project') || '').trim(), source: fd.get('source') || '', budget: (fd.get('budget') || '').trim(), notes: (fd.get('notes') || '').trim() };
+        if (!nv.name) return 'Enter the client\'s name.'; if (phoneKey(nv.phone).length < 10) return 'Enter a valid 10-digit phone number.';
+        const labels = { name: 'Name', phone: 'Phone', project: 'Project', source: 'Source', budget: 'Budget', notes: 'Notes' };
+        const fields = {}; const diff = []; Object.keys(nv).forEach(k => { if ((l[k] || '') !== nv[k]) { fields[k] = nv[k]; diff.push(k === 'notes' ? 'Notes changed' : `${labels[k]}: ${l[k] || '—'} → ${nv[k] || '—'}`); } });
+        if (!diff.length) return;
+        if (!l.sentAt && !l.adminId) { const L = clone(l); Object.assign(L, fields); S.leads.set(L.id, L); schedule(); await persist('lead', L); toast('Changes saved'); return; }
+        await logEntry(id, { t: 'edited', fields, note: diff.join('; ') }); toast('Changes saved');
+      } });
+  } else if (kind === 'reopen') {
+    openModal(`Reopen · ${l.name}`, `${note('Why is this lead open again?', true)}${nextField('Next follow-up', tomorrowAt(11))}`, {
+      submit: 'Reopen', onSubmit: async fd => { const n2 = (fd.get('note') || '').trim(); if (!n2) return 'Write the reason.'; await logEntry(id, { t: 'reopened', note: n2, next: fromLocalInput(fd.get('next')) || tomorrowAt(11) }); toast('Lead reopened'); } });
+  }
+}
+async function undoLast(id) {
+  const l = getLead(id); if (!l) return; const lg = l.log || []; const e = lg[lg.length - 1];
+  if (!e || e.sent || e.src === 'admin' || e.t === 'created') return;
+  const L = clone(l); L.log = lg.slice(0, -1); if (e.undo) Object.assign(L, e.undo);
+  S.leads.set(L.id, L); schedule(); await persist('lead', L); toast('Entry removed');
+}
+async function deleteLead(id) {
+  const l = getLead(id); if (!l) return;
+  S.leads.delete(id); S.drawer = null; schedule();
+  if (S.mode === 'cloud') { try { await queued(id, () => S.db.doc(`${basePath()}/${id}`).delete()); } catch (e) { toast('Couldn\'t delete right now.', true); } }
+  else if (S.mode === 'device') saveDevice();
+  toast('Lead deleted');
+}
+function openImportAdmin() {
+  openModal('Import leads from admin', `<div class="note">Open the leads file admin sent you on WhatsApp, or paste its text below.</div>
+    <label class="field"><span class="lbl">Leads file</span><input id="imp-file" type="file" accept=".json,.txt,application/json,text/plain"></label>
+    <label class="field"><span class="lbl">Or paste the text</span><textarea id="imp-text" name="text" rows="4" placeholder="Paste the file text here"></textarea></label>`, {
+    submit: 'Import leads', onSubmit: async (fd) => {
+      const fileEl = $('#imp-file'); let txt = (fd.get('text') || '').trim();
+      if (fileEl && fileEl.files && fileEl.files[0]) txt = await fileEl.files[0].text();
+      if (!txt) return 'Choose the file or paste its text.';
+      let res; try { res = importAdminLeads(parseFileText(txt)); } catch (e) { return e.message; }
+      schedule(); for (const L of res.changed) await persist('lead', L); await persist('meta', S.meta);
+      toast(`Imported: ${res.added} new, ${res.updated} updated`);
+    } });
+}
+function openRestore() {
+  openModal('Restore backup', `<div class="callout warn">Restoring adds the leads from the backup. Leads you already have stay as they are.</div><label class="field"><span class="lbl">Backup file</span><input id="rs-file" type="file" accept=".json,.txt,application/json,text/plain"></label>`, {
+    submit: 'Restore', onSubmit: async () => {
+      const el = $('#rs-file'); if (!el || !el.files || !el.files[0]) return 'Choose the backup file.';
+      let d; try { d = parseFileText(await el.files[0].text()); } catch (e) { return e.message; }
+      if (!d || d.type !== FILE_BACKUP || !Array.isArray(d.leads)) return 'This isn\'t a Staff app backup file.';
+      let n = 0; const add = [];
+      d.leads.forEach(l => { if (l && l.id && !S.leads.has(l.id)) { S.leads.set(l.id, l); add.push(l); n++; } });
+      if (!S.profile && d.profile) S.profile = d.profile;
+      if (d.meta && !(S.meta.exports || []).length) S.meta = Object.assign({ exports: [], adminImports: [] }, d.meta);
+      schedule(); for (const L of add) await persist('lead', L); await persist('meta', S.meta); if (S.profile) await persist('profile', S.profile);
+      toast(`Restored ${n} ${n === 1 ? 'lead' : 'leads'}`);
+    } });
+}
+
+/* ================= Events ================= */
+const H = {
+  tab: el => { S.view = el.dataset.v; S.drawer = null; window.scrollTo(0, 0); render(); },
+  lf: el => { S.lf.f = el.dataset.v; render(); },
+  'open-lead': el => { S.drawer = el.dataset.id; renderDrawer(); },
+  'open-lead-close': el => { closeModal(); S.drawer = el.dataset.id; renderDrawer(); },
+  'drawer-close': () => { S.drawer = null; renderDrawer(); },
+  'drawer-back': (el, e) => { if (e.target === el) { S.drawer = null; renderDrawer(); } },
+  'modal-close': () => closeModal(),
+  'modal-back': (el, e) => { if (e.target === el) closeModal(); },
+  'add-lead': () => openAddLead(),
+  'lead-act': el => leadAct(el.dataset.kind, el.dataset.id),
+  'send-open': () => { closeModal(); openSend(false); },
+  'send-again': () => openSend(true),
+  'send-file': () => deliver('file'),
+  'send-copy': () => deliver('copy'),
+  'import-admin': () => openImportAdmin(),
+  undo: el => confirmBox('Remove this entry?', 'It hasn\'t been sent, so admin never saw it.', 'Remove', () => undoLast(el.dataset.id), true),
+  'del-lead': el => confirmBox('Delete this lead?', 'It hasn\'t been sent to admin yet.', 'Delete', () => deleteLead(el.dataset.id), true),
+  backup: () => { const ex = exportBackup(); openModal('Download backup', `<div class="note">A full copy of your leads and history. Keep it somewhere safe, like your WhatsApp chat with yourself.</div><div class="grid g-2"><button class="btn primary bigshare" type="button" data-act="send-file">${icon('download')}Share file</button><button class="btn bigshare" type="button" data-act="send-copy">${icon('copy')}Copy as text</button></div><div class="note">File: ${esc(ex.filename)}</div>`, { noSubmit: true }); },
+  restore: () => openRestore(),
+  theme: () => { const t = isDark() ? 'light' : 'dark'; document.documentElement.dataset.theme = t; lsSet('vss-theme', t); render(); },
+  copy: el => { navigator.clipboard.writeText(el.dataset.v).then(() => toast(el.dataset.msg || 'Copied')).catch(() => toast('Couldn\'t copy. Select the text instead.', true)); },
+};
+const _deliver = deliver;
+deliver = async method => {
+  const ex = S.pendingExport;
+  if (ex && ex.backup) {
+    const json = JSON.stringify(ex.file);
+    if (method === 'copy') { try { await navigator.clipboard.writeText(json); toast('Backup copied'); lsSet('vss-last-backup', String(Date.now())); closeModal(); } catch (e) { toast('Couldn\'t copy here.', true); } return; }
+    if (!IN_CLAUDE) { const r = await shareOrDownload(ex.filename, json); if (r !== 'cancelled') { lsSet('vss-last-backup', String(Date.now())); closeModal(); toast('Backup saved'); render(); } return; }
+    let dl = null; if (S.mode !== 'demo' && window.claude && window.claude.use) { try { dl = await window.claude.use('downloads'); } catch (e) { dl = null; } }
+    if (!dl) return toast('Saving files isn\'t available in this view. Use Copy as text.', true);
+    try { await dl.save({ filename: ex.filename, data: json }); lsSet('vss-last-backup', String(Date.now())); closeModal(); toast('Backup saved'); } catch (e) { if (!(e && e.code === 'declined')) toast('Couldn\'t save the backup.', true); }
+    return;
+  }
+  return _deliver(method);
+};
+document.addEventListener('click', e => { const el = e.target.closest('[data-act]'); if (!el) return; const fn = H[el.dataset.act]; if (fn) fn(el, e); });
+document.addEventListener('keydown', e => {
+  if ((e.key === 'Enter' || e.key === ' ') && e.target && e.target.getAttribute && e.target.getAttribute('role') === 'button' && e.target.dataset.act) { e.preventDefault(); e.target.click(); return; }
+  if (e.key === 'Escape') { if (S.modal) closeModal(); else if (S.drawer) { S.drawer = null; renderDrawer(); } }
+});
+let _qT = 0;
+document.addEventListener('input', e => {
+  const t = e.target;
+  if (t.id && t.classList && t.classList.contains('keep')) S.dirty[t.id] = t.value;
+  if (t.id && t.closest && t.closest('#setup-form, #profile-form')) S.dirty[t.id] = t.value;
+  if (t.dataset && t.dataset.inp === 'sq') { S.lf.q = t.value; clearTimeout(_qT); _qT = setTimeout(render, 120); }
+  if (t.closest && t.closest('#modal-form') && S.modal && S.modal.preview) S.modal.preview($('#modal-form'));
+});
+document.addEventListener('submit', async e => {
+  const f = e.target; e.preventDefault();
+  if (f.id === 'modal-form') {
+    const m = S.modal; if (!m || !m.onSubmit) return closeModal();
+    const btn = $('#modal-submit'); if (btn) btn.disabled = true;
+    try { const msg = await m.onSubmit(new FormData(f), f); if (typeof msg === 'string') { modalErr(msg); if (btn) btn.disabled = false; return; } if (S.modal === m) closeModal(); }
+    catch (err) { console.warn(err); modalErr('Couldn\'t save. Check your connection and try again.'); if (btn) btn.disabled = false; }
+  } else if (f.id === 'setup-form' || f.id === 'profile-form') {
+    const fd = new FormData(f); const name = (fd.get('name') || '').trim(); const phone = (fd.get('phone') || '').trim();
+    if (!name) return toast('Enter your full name.', true);
+    S.profile = Object.assign({ key: 'sk_' + uidGen(), createdAt: Date.now() }, S.profile || {}, { name, phone });
+    S.dirty = {}; render();
+    try { await persist('profile', S.profile); toast(f.id === 'setup-form' ? 'Ready. Add your first lead.' : 'Details saved'); } catch (err) { /* toast shown */ }
+  }
+});
+
+/* ================= Demo data ================= */
+function startDemo(reason) {
+  S.mode = 'demo'; S.demoReason = reason; S.loaded = true;
+  const rnd = mulberry32(1115); const R = (a, b) => a + rnd() * (b - a); const pick = a => a[Math.floor(rnd() * a.length)];
+  const now = Date.now(); const today = startOfDay(now); const c = cfg();
+  S.profile = { key: 'sk_demo', name: 'Priya Deshmukh', phone: '98220 11002', createdAt: now - 40 * DAY };
+  const names = ['Rahul Shinde', 'Amol Jadhav', 'Swati Kale', 'Mahesh Bhosale', 'Pooja Thorat', 'Ganesh Mane', 'Deepa Kadam', 'Nilesh Sawant', 'Sunil Lokhande', 'Ashwini Gore', 'Tushar Mohite', 'Rupali Nikam', 'Santosh Jagtap', 'Kavita Bhoir'];
+  const wk = t => { const d = new Date(t); const hh = d.getHours(); if (hh < 10) d.setHours(10, Math.floor(rnd() * 50)); else if (hh > 19) d.setHours(19, Math.floor(rnd() * 40)); return Math.min(d.getTime(), now - 20 * MIN); };
+  const exps = [];
+  names.forEach((nm, i) => {
+    const age = 9 - Math.floor(i * 0.65); const created = i >= 12 ? now - R(1, 3) * HOUR : wk(today - age * DAY + R(10, 18) * HOUR);
+    const fromAdmin = i % 3 === 0;
+    const L = { id: 'sl_demo' + i, adminId: fromAdmin ? 'admin' + i : null, name: nm, phone: '98' + String(Math.floor(R(10000000, 99999999))), project: pick(c.projects), source: fromAdmin ? 'Facebook / Instagram ad' : pick(['Walk-in', 'Referral', 'Google', 'Hoarding / banner']), budget: pick(['15–20 lakh', '20–25 lakh', '25–35 lakh', '']), notes: '', createdAt: created, assignedAt: created, status: 'new', closed: false, nextFollowupAt: null, visitAt: null, firstFollowupAt: null, lastTouchAt: null, lastActivityAt: created, sentAt: null, log: [fromAdmin ? { id: 'a' + i, t: 'assigned', at: created, src: 'admin' } : { id: 'c' + i, t: 'created', at: created }] };
+    let t = created + R(0.5, 4) * HOUR; const steps = i >= 12 ? 0 : Math.max(1, Math.floor(R(1, 4.99)));
+    for (let s = 0; s < steps && t < now - 30 * MIN; s++) {
+      const kind = s === 0 ? 'followup' : pick(['followup', 'followup', 'visit_scheduled', 'visit_done', 'advance']);
+      const e = { id: `e${i}_${s}`, at: wk(t) };
+      if (kind === 'followup') Object.assign(e, { t: 'followup', ch: pick(['call', 'call', 'whatsapp']), outcome: pick(['Interested', 'Call back later', 'Visit agreed', 'Thinking / comparing']), next: wk(t + R(18, 50) * HOUR) });
+      else if (kind === 'visit_scheduled') Object.assign(e, { t: 'visit_scheduled', when: wk(t + R(20, 48) * HOUR) });
+      else if (kind === 'visit_done') Object.assign(e, { t: 'visit_done', outcome: 'Liked the plot', next: wk(t + R(20, 50) * HOUR) });
+      else Object.assign(e, { t: 'advance', note: 'Shared payment plan, token date discussed', next: wk(t + R(20, 50) * HOUR) });
+      applyLocal(L, e); t += R(16, 40) * HOUR;
+    }
+    if (i === 4 && L.log.length > 1) { applyLocal(L, { id: 'eb4', t: 'booked', at: wk(now - 26 * HOUR), bookedAt: wk(now - 26 * HOUR), plotNo: 'B-14', dealValue: 2650000 }); }
+    if (i === 8) applyLocal(L, { id: 'el8', t: 'lost', at: wk(now - 30 * HOUR), reason: 'Budget too high' });
+    const fut = h0 => { const d = new Date(now + h0 * HOUR); if (d.getHours() < 10) d.setHours(10, 30); else if (d.getHours() > 19) { d.setDate(d.getDate() + 1); d.setHours(11, 0); } return d.getTime(); };
+    if (!L.closed && rnd() < 0.85) { if (L.status === 'visit_scheduled') L.visitAt = Math.max(L.visitAt || 0, fut(R(4, 40))); else if ((L.nextFollowupAt || 0) < now) L.nextFollowupAt = fut(R(2, 50)); }
+    const cut = today - DAY * 0.3;
+    L.log.forEach(e => { if (e.at < cut && e.t !== 'created' && e.src !== 'admin') e.sent = 'ex_demo'; });
+    if (created < cut) L.sentAt = cut;
+    S.leads.set(L.id, L);
+  });
+  S.meta = { exports: [{ id: 'ex_demo', at: today - DAY + 19 * HOUR, count: 9, counts: { followup: 6, visit_done: 2, lead: 1 }, method: 'file', note: '' }], adminImports: [{ at: today - 3 * DAY + 10 * HOUR, added: 5, updated: 0 }] };
+  setTimeout(render, 20);
+}
+function mulberry32(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+
+/* ================= Boot ================= */
+async function boot() {
+  const th = lsGet('vss-theme'); if (th === 'dark' || th === 'light') document.documentElement.dataset.theme = th;
+  const rt = window.claude && typeof window.claude.use === 'function';
+  if (!rt) { if (/[?&]demo\b/.test(location.search)) return startDemo('Remove ?demo from the address to use your own data.'); S.mode = 'device'; loadDevice(); S.loaded = true; render(); return; }
+  const fb = setTimeout(() => { if (S.mode === 'loading') { S.mode = 'device'; loadDevice(); S.loaded = true; render(); } }, 12000);
+  let db = null, user = null;
+  try { [db, user] = await Promise.all([window.claude.use('db'), window.claude.use('user')]); } catch (e) { console.warn(e); }
+  clearTimeout(fb); if (S.mode !== 'loading') return;
+  let me = null; try { me = user ? await user.me() : null; } catch (e) { me = null; }
+  S.user = user; S.me = me && me.id || null; S.myName = me && me.name || '';
+  if (db && S.me) { S.mode = 'cloud'; S.db = db; render(); startCloud(); }
+  else { S.mode = 'device'; loadDevice(); S.loaded = true; render(); }
+}
+boot();
+</script>
+<script>
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+  window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
+}
+</script>
+</body>
+</html>
